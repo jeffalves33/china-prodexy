@@ -40,18 +40,6 @@ export default function HomePage() {
               <div className="text-xs opacity-90">Gestão completa do sistema</div>
             </div>
           </Button>
-
-          <Button
-            onClick={() => router.push("/professora")}
-            className="w-full h-auto py-6 flex flex-col items-center gap-2 bg-(--color-primary) hover:bg-(--color-primary-hover) text-white"
-            size="lg"
-          >
-            <UserCircle className="w-8 h-8" />
-            <div>
-              <div className="font-bold text-lg">Professora</div>
-              <div className="text-xs opacity-90">Minhas turmas e alunas</div>
-            </div>
-          </Button>
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-6">Versão 1.0 • PWA Mobile First</p>
