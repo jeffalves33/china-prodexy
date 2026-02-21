@@ -137,9 +137,9 @@ export default function FinanceiroPage() {
                         <p className="text-xs text-(--color-foreground-secondary) mb-0.5">Esperado</p>
                         <p className="font-semibold text-sm text-(--color-foreground)">{formatCurrency(esperado)}</p>
                       </div>
-                      <div className="bg-green-50 rounded-lg p-2.5">
-                        <p className="text-xs text-green-700 mb-0.5">Recebido</p>
-                        <p className="font-semibold text-sm text-green-700">{formatCurrency(recebido)}</p>
+                      <div className="bg-blue-50 rounded-lg p-2.5">
+                        <p className="text-xs text-blue-700 mb-0.5">Recebido</p>
+                        <p className="font-semibold text-sm text-blue-700">{formatCurrency(recebido)}</p>
                       </div>
                       <div className="bg-amber-50 rounded-lg p-2.5">
                         <p className="text-xs text-amber-700 mb-0.5">Pendente</p>
@@ -182,7 +182,7 @@ export default function FinanceiroPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="text-lg font-bold text-(--color-foreground)">Salários das Professoras</h2>
+              <h2 className="text-lg font-bold text-(--color-foreground)">Salários dos Professores</h2>
 
               <div className="space-y-2">
                 {professoras.map((prof) => {
@@ -205,7 +205,7 @@ export default function FinanceiroPage() {
                           </p>
                         </div>
                         {pagamento?.status === "Pago" ? (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full flex items-center gap-1">
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full flex items-center gap-1">
                             <CheckCircle className="w-3 h-3" />
                             Pago
                           </span>

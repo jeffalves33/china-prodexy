@@ -17,7 +17,7 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-50 via-white to-zinc-50 flex items-center justify-center p-4">
       <div className="text-center max-w-md">
         <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertTriangle className="w-10 h-10 text-red-600" />
@@ -31,7 +31,7 @@ export default function Error({
             <RefreshCw className="w-4 h-4" />
             Tentar novamente
           </Button>
-          <Button asChild className="gap-2 bg-emerald-500 hover:bg-emerald-600">
+          <Button asChild className="gap-2 bg-black hover:bg-zinc-900">
             <Link href="/">
               <Home className="w-4 h-4" />
               Ir para Home

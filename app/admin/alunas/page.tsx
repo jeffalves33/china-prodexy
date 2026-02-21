@@ -119,7 +119,7 @@ export default function AlunasPage() {
           </button>
         </div>
 
-        {/* Lista Compacta de Alunas */}
+        {/* Lista Compacta de Alunos */}
         <section className="space-y-2">
           {filteredAlunas.length === 0 ? (
             <div className="text-center py-12">
@@ -153,7 +153,7 @@ export default function AlunasPage() {
                             {pendencias}m
                           </span>
                         ) : (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full flex items-center gap-1">
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full flex items-center gap-1">
                             <CheckCircle className="w-3 h-3" />
                           </span>
                         )}

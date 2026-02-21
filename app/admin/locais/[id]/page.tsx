@@ -46,11 +46,11 @@ export default async function LocalDetailPage({ params }: { params: Promise<{ id
               <p className="text-2xl font-bold text-(--color-foreground)">{turmasDoLocal.length}</p>
             </div>
             <div className="bg-(--color-background-secondary) rounded-lg p-3">
-              <p className="text-xs text-(--color-foreground-secondary) mb-1">Alunas</p>
+              <p className="text-xs text-(--color-foreground-secondary) mb-1">Alunos</p>
               <p className="text-2xl font-bold text-(--color-foreground)">{alunasDoLocal.length}</p>
             </div>
             <div className="bg-(--color-background-secondary) rounded-lg p-3">
-              <p className="text-xs text-(--color-foreground-secondary) mb-1">Professoras</p>
+              <p className="text-xs text-(--color-foreground-secondary) mb-1">Professores</p>
               <p className="text-2xl font-bold text-(--color-foreground)">{professorasDoLocal.length}</p>
             </div>
           </div>
@@ -58,7 +58,7 @@ export default async function LocalDetailPage({ params }: { params: Promise<{ id
 
         {professorasDoLocal.length > 0 && (
           <section className="space-y-3">
-            <h3 className="text-lg font-bold text-(--color-foreground)">Professoras</h3>
+            <h3 className="text-lg font-bold text-(--color-foreground)">Professores</h3>
             <div className="bg-white rounded-lg p-4 border border-(--color-border) space-y-2">
               {professorasDoLocal.map((prof) => (
                 <div key={prof.id} className="flex items-center gap-3 py-2">

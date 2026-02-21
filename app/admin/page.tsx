@@ -4,7 +4,7 @@
 import { useState } from "react"
 import { MobileHeader } from "@/components/layout/mobile-header"
 import { StatCard } from "@/components/ui/stat-card"
-import { Users, GraduationCap, MapPin, DollarSign, TrendingUp, AlertCircle, Calendar, Settings } from "lucide-react"
+import { Users, GraduationCap, MapPin, DollarSign, TrendingUp, AlertCircle, Calendar, Settings, Layers } from "lucide-react"
 import Link from "next/link"
 import { locais, turmas, alunas, professoras, pagamentosAlunas } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   const totalAlunas = alunas.filter((a) => a.status === "Ativa").length
   const totalProfessoras = professoras.length
   const totalLocais = locais.length
+  const totalTurmas = turmas.length
 
   const pagamentosMesAtual = pagamentosAlunas.filter((p) => p.mesReferencia === mesReferencia)
   const totalEsperado = pagamentosMesAtual.reduce((sum, p) => sum + p.valor, 0)
@@ -23,11 +24,11 @@ export default function AdminDashboard() {
   const alunasPendentes = new Set(pagamentosMesAtual.filter((p) => p.status === "Pendente").map((p) => p.alunaId)).size
 
   const quickLinks = [
-    { label: "Gerenciar Locais", href: "/admin/locais", icon: MapPin, color: "bg-purple-100 text-purple-600" },
-    { label: "Gerenciar Turmas", href: "/admin/turmas", icon: GraduationCap, color: "bg-green-100 text-green-600" },
-    { label: "Gerenciar Alunos", href: "/admin/alunas", icon: Users, color: "bg-pink-100 text-pink-600" },
-    { label: "Gerenciar Professores", href: "/admin/professoras", icon: GraduationCap, color: "bg-orange-100 text-orange-600", },
-    { label: "Financeiro Geral", href: "/admin/financeiro", icon: DollarSign, color: "bg-emerald-100 text-emerald-600", },
+    { label: "Gerenciar Locais", href: "/admin/locais", icon: MapPin, color: "bg-blue-100 text-blue-700" },
+    { label: "Gerenciar Turmas", href: "/admin/turmas", icon: GraduationCap, color: "bg-blue-100 text-blue-700" },
+    { label: "Gerenciar Alunos", href: "/admin/alunas", icon: Users, color: "bg-blue-100 text-blue-700" },
+    { label: "Gerenciar Professores", href: "/admin/professoras", icon: GraduationCap, color: "bg-blue-100 text-blue-700", },
+    { label: "Financeiro Geral", href: "/admin/financeiro", icon: DollarSign, color: "bg-amber-100 text-amber-800", },
     { label: "Configurações", href: "/admin/configuracoes", icon: Settings, color: "bg-(--color-primary-light) text-(--color-primary)", },
   ]
 
@@ -38,8 +39,9 @@ export default function AdminDashboard() {
       <main className="px-4 pb-6 space-y-6">
         <section className="grid grid-cols-2 gap-3 pt-4">
           <StatCard title="Locais" value={totalLocais} icon={MapPin} iconColor="text-orange-600" />
+          <StatCard title="Turmas" value={totalTurmas} icon={Layers} iconColor="text-purple-600" />
           <StatCard title="Alunos Ativos" value={totalAlunas} icon={Users} iconColor="text-(--color-primary)" />
-          <StatCard title="Professoras" value={totalProfessoras} icon={GraduationCap} iconColor="text-blue-600" />
+          <StatCard title="Professores" value={totalProfessoras} icon={GraduationCap} iconColor="text-blue-600" />
         </section>
 
         {/* Financeiro resumo */}

@@ -19,10 +19,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-zinc-50 via-white to-zinc-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500 rounded-2xl mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-black rounded-2xl mb-4">
             <span className="text-2xl font-bold text-white">GR</span>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Ginástica Rítmica</h1>
@@ -35,14 +35,14 @@ export default function LoginPage() {
               onClick={() => setSelectedRole("admin")}
               className={`w-full p-4 rounded-xl border-2 transition-all ${
                 selectedRole === "admin"
-                  ? "border-emerald-500 bg-emerald-50"
-                  : "border-gray-200 hover:border-emerald-300"
+                  ? "border-zinc-900 bg-zinc-50"
+                  : "border-gray-200 hover:border-zinc-400"
               }`}
             >
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    selectedRole === "admin" ? "bg-emerald-500" : "bg-gray-100"
+                    selectedRole === "admin" ? "bg-black" : "bg-gray-100"
                   }`}
                 >
                   <Lock className={`w-6 h-6 ${selectedRole === "admin" ? "text-white" : "text-gray-600"}`} />
@@ -53,7 +53,7 @@ export default function LoginPage() {
                 </div>
                 <div
                   className={`w-5 h-5 rounded-full border-2 ${
-                    selectedRole === "admin" ? "border-emerald-500 bg-emerald-500" : "border-gray-300"
+                    selectedRole === "admin" ? "border-zinc-900 bg-zinc-900" : "border-gray-300"
                   }`}
                 >
                   {selectedRole === "admin" && (
@@ -69,14 +69,14 @@ export default function LoginPage() {
               onClick={() => setSelectedRole("professora")}
               className={`w-full p-4 rounded-xl border-2 transition-all ${
                 selectedRole === "professora"
-                  ? "border-emerald-500 bg-emerald-50"
-                  : "border-gray-200 hover:border-emerald-300"
+                  ? "border-zinc-900 bg-zinc-50"
+                  : "border-gray-200 hover:border-zinc-400"
               }`}
             >
               <div className="flex items-center gap-3">
                 <div
                   className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    selectedRole === "professora" ? "bg-emerald-500" : "bg-gray-100"
+                    selectedRole === "professora" ? "bg-black" : "bg-gray-100"
                   }`}
                 >
                   <User className={`w-6 h-6 ${selectedRole === "professora" ? "text-white" : "text-gray-600"}`} />
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 </div>
                 <div
                   className={`w-5 h-5 rounded-full border-2 ${
-                    selectedRole === "professora" ? "border-emerald-500 bg-emerald-500" : "border-gray-300"
+                    selectedRole === "professora" ? "border-zinc-900 bg-zinc-900" : "border-gray-300"
                   }`}
                 >
                   {selectedRole === "professora" && (
@@ -103,7 +103,7 @@ export default function LoginPage() {
           <Button
             onClick={handleLogin}
             disabled={!selectedRole}
-            className="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-12 bg-black hover:bg-zinc-900 text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Entrar
           </Button>

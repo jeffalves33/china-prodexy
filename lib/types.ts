@@ -22,7 +22,7 @@ export interface Turma {
   id: string
   localId: string
   name: string
-  nivel: "Iniciante 1" | "Iniciante 2" | "Intermediário" | "Avançado"
+  nivel: string
   mensalidade: number
   professoraIds: string[]
   createdAt: Date

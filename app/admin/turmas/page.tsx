@@ -115,7 +115,7 @@ export default function TurmasPage() {
                       <div className="bg-(--color-background-secondary) rounded-lg p-2.5">
                         <div className="flex items-center gap-1.5 mb-1">
                           <Users className="w-3.5 h-3.5 text-(--color-foreground-secondary)" />
-                          <p className="text-xs text-(--color-foreground-secondary)">Alunas</p>
+                          <p className="text-xs text-(--color-foreground-secondary)">Alunos</p>
                         </div>
                         <p className="font-semibold text-sm text-(--color-foreground)">{alunasDaTurma.length}</p>
                       </div>

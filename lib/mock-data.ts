@@ -3,8 +3,8 @@ import type { Local, Turma, Horario, Aluna, Professora, PagamentoAluna, Pagament
 // Usuário logado (pode ser alterado para simular diferentes perfis)
 export const currentUser: User = {
   id: "1",
-  name: "Ana Paula",
-  email: "ana@ginastica.com",
+  name: "China",
+  email: "china@ftv.com",
   role: "admin",
 }
 
@@ -12,46 +12,34 @@ export const currentUser: User = {
 export const locais: Local[] = [
   {
     id: "1",
-    name: "Escola Elesmão",
+    name: "CEPE",
     address: "Rua das Flores, 123",
     createdAt: new Date("2023-01-20")
   },
   {
     id: "2",
-    name: "Ginásio Artístico Municipal",
+    name: "Arena Bené",
     address: "Av. Principal, 456",
     createdAt: new Date("2023-01-25"),
   },
-  {
-    id: "3",
-    name: "Centro Esportivo Vitória",
-    address: "Rua Central, 789",
-    createdAt: new Date("2023-02-25"),
-  },
-  {
-    id: "4",
-    name: "Ginásio Linhares",
-    address: "Av. Beira Mar, 321",
-    createdAt: new Date("2023-03-15")
-  },
 ]
 
-// Professoras
+// Professores
 export const professoras: Professora[] = [
   {
     id: "1",
-    nome: "Mariana Silva",
-    email: "mariana@ginastica.com",
+    nome: "Staff 1",
+    email: "staff1@hotmail.com",
     telefone: "(27) 98765-4321",
-    turmaIds: ["1", "2"],
+    turmaIds: ["1"],
     createdAt: new Date("2023-01-10"),
   },
   {
     id: "2",
-    nome: "Carolina Santos",
-    email: "carolina@ginastica.com",
+    nome: "Jeff",
+    email: "Jeff@hotmail.com",
     telefone: "(27) 98888-7777",
-    turmaIds: ["3", "4"],
+    turmaIds: ["4", "1"],
     createdAt: new Date("2023-02-15"),
   },
   {
@@ -78,15 +66,6 @@ export const turmas: Turma[] = [
   {
     id: "2",
     localId: "1",
-    name: "Iniciante 2",
-    nivel: "Iniciante 2",
-    mensalidade: 180,
-    professoraIds: ["1"],
-    createdAt: new Date("2023-02-01"),
-  },
-  {
-    id: "3",
-    localId: "2",
     name: "Intermediário A",
     nivel: "Intermediário",
     mensalidade: 220,
@@ -94,93 +73,91 @@ export const turmas: Turma[] = [
     createdAt: new Date("2023-02-05"),
   },
   {
-    id: "4",
-    localId: "3",
-    name: "Avançado",
-    nivel: "Avançado",
-    mensalidade: 280,
+    id: "3",
+    localId: "2",
+    name: "Intermediário",
+    nivel: "Intermediário",
+    mensalidade: 120,
     professoraIds: ["2"],
     createdAt: new Date("2023-03-01"),
   },
   {
-    id: "5",
-    localId: "4",
-    name: "Iniciante 1",
-    nivel: "Iniciante 1",
+    id: "4",
+    localId: "2",
+    name: "Iniciante",
+    nivel: "Iniciante",
     mensalidade: 140,
-    professoraIds: ["3"],
+    professoraIds: ["2"],
     createdAt: new Date("2023-03-20"),
   },
 ]
 
 // Horários
 export const horarios: Horario[] = [
-  { id: "1", turmaId: "1", diaSemana: "Segunda", horaInicio: "10:00", horaFim: "11:00" },
-  { id: "2", turmaId: "1", diaSemana: "Quarta", horaInicio: "10:00", horaFim: "11:00" },
-  { id: "3", turmaId: "2", diaSemana: "Terça", horaInicio: "14:00", horaFim: "15:30" },
-  { id: "4", turmaId: "2", diaSemana: "Quinta", horaInicio: "14:00", horaFim: "15:30" },
-  { id: "5", turmaId: "3", diaSemana: "Segunda", horaInicio: "16:00", horaFim: "17:30" },
-  { id: "6", turmaId: "3", diaSemana: "Sexta", horaInicio: "16:00", horaFim: "17:30" },
-  { id: "7", turmaId: "4", diaSemana: "Terça", horaInicio: "18:00", horaFim: "20:00" },
-  { id: "8", turmaId: "4", diaSemana: "Quinta", horaInicio: "18:00", horaFim: "20:00" },
-  { id: "9", turmaId: "5", diaSemana: "Segunda", horaInicio: "09:00", horaFim: "10:00" },
-  { id: "10", turmaId: "5", diaSemana: "Quarta", horaInicio: "09:00", horaFim: "10:00" },
+  { id: "1", turmaId: "3", diaSemana: "Segunda", horaInicio: "19:00", horaFim: "20:00" },
+  { id: "2", turmaId: "3", diaSemana: "Quarta", horaInicio: "19:00", horaFim: "20:00" },
+  { id: "3", turmaId: "4", diaSemana: "Segunda", horaInicio: "20:00", horaFim: "21:00" },
+  { id: "4", turmaId: "4", diaSemana: "Quarta", horaInicio: "20:00", horaFim: "21:00" },
+  { id: "5", turmaId: "2", diaSemana: "Segunda", horaInicio: "16:00", horaFim: "17:30" },
+  { id: "6", turmaId: "2", diaSemana: "Sexta", horaInicio: "16:00", horaFim: "17:30" },
+  { id: "7", turmaId: "1", diaSemana: "Terça", horaInicio: "18:00", horaFim: "20:00" },
+  { id: "8", turmaId: "1", diaSemana: "Quinta", horaInicio: "18:00", horaFim: "20:00" },
 ]
 
-// Alunas
+// Aluns
 export const alunas: Aluna[] = [
   {
     id: "1",
-    nome: "Sofia Rodrigues",
+    nome: "Gamarra",
     whatsapp: "(27) 99111-2222",
-    email: "sofia@email.com",
+    email: "Gamarra@email.com",
     diaPagamento: 5,
-    mensalidade: 100,
-    turmaId: "1",
+    mensalidade: 120,
+    turmaId: "3",
     status: "Ativa",
     createdAt: new Date("2023-02-10"),
   },
   {
     id: "2",
-    nome: "Isabella Costa",
+    nome: "Jeff",
     whatsapp: "(27) 99222-3333",
-    email: "isabella@email.com",
+    email: "Jeff@email.com",
     diaPagamento: 10,
-    mensalidade: 110,
-    turmaId: "1",
+    mensalidade: 120,
+    turmaId: "3",
     status: "Ativa",
     createdAt: new Date("2023-02-15"),
   },
   {
     id: "3",
-    nome: "Laura Almeida",
+    nome: "Caliari",
     whatsapp: "(27) 99333-4444",
-    email: "laura@email.com",
+    email: "Caliari@email.com",
     diaPagamento: 7,
     mensalidade: 120,
-    turmaId: "2",
+    turmaId: "3",
     status: "Ativa",
     createdAt: new Date("2023-02-20"),
   },
   {
     id: "4",
-    nome: "Valentina Souza",
+    nome: "Duda",
     whatsapp: "(27) 99444-5555",
-    email: "valentina@email.com",
+    email: "duda@email.com",
     diaPagamento: 8,
-    mensalidade: 130,
+    mensalidade: 120,
     turmaId: "3",
     status: "Ativa",
     createdAt: new Date("2023-03-05"),
   },
   {
     id: "5",
-    nome: "Helena Martins",
+    nome: "Mayara",
     whatsapp: "(27) 99555-6666",
-    email: "helena@email.com",
+    email: "mayara@email.com",
     diaPagamento: 12,
-    mensalidade: 140,
-    turmaId: "1",
+    mensalidade: 120,
+    turmaId: "3",
     status: "Ativa",
     createdAt: new Date("2023-02-12"),
   },
@@ -219,7 +196,7 @@ export const alunas: Aluna[] = [
   },
 ]
 
-// Pagamentos de Alunas
+// Pagamentos de Alunos
 export const pagamentosAlunas: PagamentoAluna[] = [
   // Sofia Rodrigues - em dia
   {

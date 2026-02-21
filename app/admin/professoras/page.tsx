@@ -45,7 +45,7 @@ export default function ProfessorasPage() {
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
-      <MobileHeader title="Professoras" />
+      <MobileHeader title="Professores" />
 
       <main className="px-4 pb-6 space-y-4">
         <div className="pt-4 space-y-3">
@@ -100,7 +100,7 @@ export default function ProfessorasPage() {
                       </div>
                       <div className="flex flex-col items-end gap-2">
                         {salarioPago ? (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full flex items-center gap-1">
+                          <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full flex items-center gap-1">
                             <CheckCircle className="w-3 h-3" />
                             Pago
                           </span>
@@ -116,8 +116,8 @@ export default function ProfessorasPage() {
 
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center">
-                          <GraduationCap className="w-4 h-4 text-green-600" />
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                          <GraduationCap className="w-4 h-4 text-blue-700" />
                         </div>
                         <div>
                           <p className="text-xs text-(--color-foreground-secondary)">Turmas</p>
@@ -130,7 +130,7 @@ export default function ProfessorasPage() {
                           <Users className="w-4 h-4 text-(--color-primary)" />
                         </div>
                         <div>
-                          <p className="text-xs text-(--color-foreground-secondary)">Alunas</p>
+                          <p className="text-xs text-(--color-foreground-secondary)">Alunos</p>
                           <p className="font-semibold text-(--color-foreground)">{alunasDaProfessora.length}</p>
                         </div>
                       </div>

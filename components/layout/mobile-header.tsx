@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X, LogOut } from "lucide-react"
+import { Menu, X, LogOut, LayoutDashboard, MapPin, Users, User, UserCog, DollarSign, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { getCurrentUser } from "@/lib/mock-data"
@@ -19,19 +19,19 @@ export function MobileHeader({ title }: MobileHeaderProps) {
   const isAdmin = user.role === "admin"
 
   const adminMenuItems = [
-    { label: "Dashboard", href: "/admin" },
-    { label: "Locais", href: "/admin/locais" },
-    { label: "Turmas", href: "/admin/turmas" },
-    { label: "Alunas", href: "/admin/alunas" },
-    { label: "Professoras", href: "/admin/professoras" },
-    { label: "Financeiro", href: "/admin/financeiro" },
-    { label: "Configurações", href: "/admin/configuracoes" },
-  ]
+    { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { label: "Locais", href: "/admin/locais", icon: MapPin },
+    { label: "Turmas", href: "/admin/turmas", icon: Users },
+    { label: "Alunos", href: "/admin/alunas", icon: User },
+    { label: "Professores", href: "/admin/professoras", icon: UserCog },
+    { label: "Financeiro", href: "/admin/financeiro", icon: DollarSign },
+    { label: "Configurações", href: "/admin/configuracoes", icon: Settings },
+  ];
 
   const professoraMenuItems = [
     { label: "Dashboard", href: "/professora" },
     { label: "Minhas Turmas", href: "/professora/turmas" },
-    { label: "Minhas Alunas", href: "/professora/alunas" },
+    { label: "Meus Alunos", href: "/professora/alunas" },
     { label: "Financeiro", href: "/professora/financeiro" },
   ]
 
@@ -83,16 +83,21 @@ export function MobileHeader({ title }: MobileHeaderProps) {
               {/* Menu items */}
               <nav className="flex-1 overflow-y-auto py-4">
                 <div className="px-3 space-y-1">
-                  {menuItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
-                    >
-                      <span className="font-medium">{item.label}</span>
-                    </Link>
-                  ))}
+                  {menuItems.map((item) => {
+                    const Icon = (item as any).icon;
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                      >
+                        {Icon && <Icon size={18} />}
+                        <span className="font-medium">{item.label}</span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </nav>
 
