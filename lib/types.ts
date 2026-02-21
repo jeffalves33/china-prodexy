@@ -1,4 +1,4 @@
-// Tipos e interfaces do sistema
+// lib/types.tsx
 
 export type UserRole = "admin" | "professora"
 
@@ -47,19 +47,14 @@ export interface Horario {
   horaFim: string
 }
 
-export interface Responsavel {
-  nome: string
-  telefone: string
-  whatsapp: string
-  email: string
-}
-
+/** AGORA: aluno é o próprio responsável */
 export interface Aluna {
   id: string
   nome: string
-  dataNascimento: Date
+  whatsapp: string
+  email?: string
+  diaPagamento: number // 1..31
   turmaId: string
-  responsavel: Responsavel
   status: "Ativa" | "Trancada"
   createdAt: Date
 }
@@ -79,7 +74,7 @@ export interface Professora {
   email: string
   telefone: string
   turmaIds: string[]
-  salarioMensal?: number // Adicionando campo de salário mensal
+  salarioMensal?: number
   createdAt: Date
 }
 

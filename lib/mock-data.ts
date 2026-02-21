@@ -5,7 +5,7 @@ export const currentUser: User = {
   id: "1",
   name: "Ana Paula",
   email: "ana@ginastica.com",
-  role: "admin", // Mude para 'professora' para testar a área da professora
+  role: "admin",
 }
 
 // Polos
@@ -141,113 +141,81 @@ export const alunas: Aluna[] = [
   {
     id: "1",
     nome: "Sofia Rodrigues",
-    dataNascimento: new Date("2018-05-12"),
+    whatsapp: "(27) 99111-2222",
+    email: "sofia@email.com",
+    diaPagamento: 5,
     turmaId: "1",
     status: "Ativa",
-    responsavel: {
-      nome: "Maria Rodrigues",
-      telefone: "(27) 99111-2222",
-      whatsapp: "(27) 99111-2222",
-      email: "maria@email.com",
-    },
     createdAt: new Date("2023-02-10"),
   },
   {
     id: "2",
     nome: "Isabella Costa",
-    dataNascimento: new Date("2017-08-23"),
+    whatsapp: "(27) 99222-3333",
+    email: "isabella@email.com",
+    diaPagamento: 10,
     turmaId: "1",
     status: "Ativa",
-    responsavel: {
-      nome: "João Costa",
-      telefone: "(27) 99222-3333",
-      whatsapp: "(27) 99222-3333",
-      email: "joao@email.com",
-    },
     createdAt: new Date("2023-02-15"),
   },
   {
     id: "3",
     nome: "Laura Almeida",
-    dataNascimento: new Date("2016-03-14"),
+    whatsapp: "(27) 99333-4444",
+    email: "laura@email.com",
+    diaPagamento: 7,
     turmaId: "2",
     status: "Ativa",
-    responsavel: {
-      nome: "Paula Almeida",
-      telefone: "(27) 99333-4444",
-      whatsapp: "(27) 99333-4444",
-      email: "paula@email.com",
-    },
     createdAt: new Date("2023-02-20"),
   },
   {
     id: "4",
     nome: "Valentina Souza",
-    dataNascimento: new Date("2015-11-30"),
+    whatsapp: "(27) 99444-5555",
+    email: "valentina@email.com",
+    diaPagamento: 8,
     turmaId: "3",
     status: "Ativa",
-    responsavel: {
-      nome: "Carlos Souza",
-      telefone: "(27) 99444-5555",
-      whatsapp: "(27) 99444-5555",
-      email: "carlos@email.com",
-    },
     createdAt: new Date("2023-03-05"),
   },
   {
     id: "5",
     nome: "Helena Martins",
-    dataNascimento: new Date("2018-07-08"),
+    whatsapp: "(27) 99555-6666",
+    email: "helena@email.com",
+    diaPagamento: 12,
     turmaId: "1",
     status: "Ativa",
-    responsavel: {
-      nome: "Ana Martins",
-      telefone: "(27) 99555-6666",
-      whatsapp: "(27) 99555-6666",
-      email: "ana@email.com",
-    },
     createdAt: new Date("2023-02-12"),
   },
   {
     id: "6",
     nome: "Alice Ferreira",
-    dataNascimento: new Date("2014-01-19"),
+    whatsapp: "(27) 99666-7777",
+    email: "alice@email.com",
+    diaPagamento: 15,
     turmaId: "4",
     status: "Ativa",
-    responsavel: {
-      nome: "Roberto Ferreira",
-      telefone: "(27) 99666-7777",
-      whatsapp: "(27) 99666-7777",
-      email: "roberto@email.com",
-    },
     createdAt: new Date("2023-03-10"),
   },
   {
     id: "7",
     nome: "Sophia Lima",
-    dataNascimento: new Date("2017-09-25"),
+    whatsapp: "(27) 99777-8888",
+    email: "sophia@email.com",
+    diaPagamento: 25,
     turmaId: "5",
     status: "Ativa",
-    responsavel: {
-      nome: "Fernanda Lima",
-      telefone: "(27) 99777-8888",
-      whatsapp: "(27) 99777-8888",
-      email: "fernanda@email.com",
-    },
     createdAt: new Date("2023-03-25"),
   },
   {
     id: "8",
     nome: "Manuela Santos",
-    dataNascimento: new Date("2016-12-03"),
+    whatsapp: "(27) 99888-9999",
+    email: "manuela@email.com",
+    diaPagamento: 22,
     turmaId: "2",
     status: "Ativa",
-    responsavel: {
-      nome: "Pedro Santos",
-      telefone: "(27) 99888-9999",
-      whatsapp: "(27) 99888-9999",
-      email: "pedro@email.com",
-    },
     createdAt: new Date("2023-02-22"),
   },
 ]
@@ -405,18 +373,7 @@ export const pagamentosProfessoras: PagamentoProfessora[] = [
   },
 ]
 
-export function getCurrentUser(pathname: string): User {
-  // Se estiver em rota de professora, simula login como professora
-  if (pathname.startsWith("/professora")) {
-    return {
-      id: "1", // ID da professora Mariana Silva
-      name: "Mariana Silva",
-      email: "mariana@ginastica.com",
-      role: "professora",
-    }
-  }
-
-  // Caso contrário, é admin
+export function getCurrentUser(_pathname: string): User {
   return {
     id: "1",
     name: "Ana Paula",

@@ -7,7 +7,6 @@ import { SearchInput } from "@/components/ui/search-input"
 import { Modal } from "@/components/ui/modal"
 import { Plus, Users, AlertCircle, Edit, Trash2, ChevronRight, CheckCircle } from "lucide-react"
 import { polos, locais, turmas, alunas, pagamentosAlunas } from "@/lib/mock-data"
-import { calculateAge } from "@/lib/utils"
 import Link from "next/link"
 import type { Aluna } from "@/lib/types"
 
@@ -51,7 +50,7 @@ export default function AlunasPage() {
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
-      <MobileHeader title="Alunas" />
+      <MobileHeader title="Alunos" />
 
       <main className="px-4 pb-6 space-y-4">
         <div className="pt-4 space-y-3">
@@ -139,13 +138,13 @@ export default function AlunasPage() {
             </select>
           </div>
 
-          {/* Botão Adicionar Aluna */}
+          {/* Botão Adicionar Aluno */}
           <button
             onClick={() => setIsAddModalOpen(true)}
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-(--color-primary) text-white rounded-lg font-semibold hover:bg-(--color-primary-hover) transition-colors"
           >
             <Plus className="w-5 h-5" />
-            Adicionar Aluna
+            Adicionar Aluno
           </button>
         </div>
 
@@ -162,7 +161,6 @@ export default function AlunasPage() {
               const polo = polos.find((p) => p.id === turma?.poloId)
               const local = locais.find((l) => l.id === turma?.localId)
               const pendencias = getPendencias(aluna.id)
-              const idade = calculateAge(aluna.dataNascimento)
 
               return (
                 <div key={aluna.id} className="bg-white rounded-lg border border-(--color-border) overflow-hidden">
@@ -174,7 +172,7 @@ export default function AlunasPage() {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-(--color-foreground) truncate">{aluna.nome}</h3>
                         <p className="text-xs text-(--color-foreground-secondary) truncate">
-                          {idade} anos • {turma?.name} • {polo?.name}
+                          Venc. dia {aluna.diaPagamento} • {turma?.name} • {polo?.name}
                         </p>
                       </div>
 
@@ -233,24 +231,53 @@ export default function AlunasPage() {
             setIsAddModalOpen(false)
           }}
         >
-          <h3 className="font-semibold text-(--color-foreground)">Dados da Aluna</h3>
+          <h3 className="font-semibold text-(--color-foreground)">Dados do Aluno</h3>
+
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Nome Completo</label>
             <input
               type="text"
-              placeholder="Ex: Sofia Rodrigues"
+              placeholder="Ex: Valentina Souza"
               className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
               required
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">WhatsApp</label>
+              <input
+                type="tel"
+                placeholder="(27) 99999-9999"
+                className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">E-mail (opcional)</label>
+              <input
+                type="email"
+                placeholder="aluno@email.com"
+                className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+              />
+            </div>
+          </div>
+
           <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Data de Nascimento</label>
-            <input
-              type="date"
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Dia de Pagamento</label>
+            <select
               className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
               required
-            />
+              defaultValue=""
+            >
+              <option value="" disabled>Selecione o dia</option>
+              {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
           </div>
+
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Turma</label>
             <select
@@ -264,35 +291,6 @@ export default function AlunasPage() {
                 </option>
               ))}
             </select>
-          </div>
-
-          <h3 className="font-semibold text-(--color-foreground) pt-2">Dados do Responsável</h3>
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Nome do Responsável</label>
-            <input
-              type="text"
-              placeholder="Ex: Maria Rodrigues"
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">WhatsApp</label>
-            <input
-              type="tel"
-              placeholder="(27) 99999-9999"
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">E-mail</label>
-            <input
-              type="email"
-              placeholder="responsavel@email.com"
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            />
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -314,7 +312,7 @@ export default function AlunasPage() {
       </Modal>
 
       {/* Modal Editar */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Aluna" size="lg">
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Aluno" size="lg">
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -331,6 +329,58 @@ export default function AlunasPage() {
               required
             />
           </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">WhatsApp</label>
+              <input
+                type="tel"
+                defaultValue={selectedAluna?.whatsapp}
+                className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">E-mail (opcional)</label>
+              <input
+                type="email"
+                defaultValue={selectedAluna?.email ?? ""}
+                className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Dia de Pagamento</label>
+            <select
+              defaultValue={String(selectedAluna?.diaPagamento ?? "")}
+              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+              required
+            >
+              <option value="" disabled>Selecione o dia</option>
+              {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
+                <option key={d} value={String(d)}>{d}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Turma</label>
+            <select
+              defaultValue={selectedAluna?.turmaId}
+              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+              required
+            >
+              <option value="">Selecione uma turma</option>
+              {turmas.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name} - {polos.find((p) => p.id === t.poloId)?.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Status</label>
             <select
@@ -341,6 +391,7 @@ export default function AlunasPage() {
               <option value="Trancada">Trancada</option>
             </select>
           </div>
+
           <div className="flex gap-3 pt-2">
             <button
               type="button"

@@ -7,7 +7,7 @@ import { Modal } from "@/components/ui/modal"
 import { BackButton } from "@/components/ui/back-button"
 import { Users, Phone, Mail, Calendar, AlertCircle, CheckCircle, MessageCircle } from "lucide-react"
 import { alunas, turmas, polos, locais, pagamentosAlunas } from "@/lib/mock-data"
-import { formatCurrency, calculateAge, formatDate } from "@/lib/utils"
+import { formatCurrency, formatDate } from "@/lib/utils"
 import { normalizePhoneToWa, fillTemplate } from "@/lib/whatsapp"
 import { getPixConfig, DEFAULT_TEMPLATE } from "@/lib/pix"
 
@@ -21,7 +21,6 @@ export default function AlunaDetailPage({ params }: { params: Promise<{ id: stri
   const turma = turmas.find((t) => String(t.id) === String(aluna.turmaId))
   const polo = polos.find((p) => p.id === turma?.poloId)
   const local = locais.find((l) => l.id === turma?.localId)
-  const idade = calculateAge(aluna.dataNascimento)
 
   const pagamentos = pagamentosAlunas
     .filter((p) => String(p.alunaId) === String(aluna.id))
@@ -36,7 +35,6 @@ export default function AlunaDetailPage({ params }: { params: Promise<{ id: stri
       turma={turma}
       polo={polo}
       local={local}
-      idade={idade}
       pagamentos={pagamentos}
       pendentes={pendentes}
       valorPendente={valorPendente}
@@ -50,7 +48,6 @@ function AlunaDetailClient({
   turma,
   polo,
   local,
-  idade,
   pagamentos = [],
   pendentes = [],
   valorPendente = 0,
@@ -63,11 +60,10 @@ function AlunaDetailClient({
   const pixOk = !!pixCfg.pixChave && !!pixCfg.pixNome
 
   const mesesPendentes = (pendentes || []).map((p: any) => p.mesReferencia).join(", ")
-  const waPhone = normalizePhoneToWa(aluna?.responsavel?.whatsapp || "")
+  const waPhone = normalizePhoneToWa(aluna?.whatsapp || "")
 
   const waText = fillTemplate(pixCfg.mensagemTemplate || DEFAULT_TEMPLATE, {
-    responsavel: aluna?.responsavel?.nome || "Responsável",
-    aluna: aluna?.nome || "Aluna",
+    aluno: aluna?.nome || "Aluno",
     meses: mesesPendentes || "mês(es) pendente(s)",
     valor: formatCurrency(valorPendente || 0),
     pixChave: pixCfg.pixChave || "",
@@ -101,21 +97,13 @@ function AlunaDetailClient({
             </div>
             <div className="flex-1">
               <h2 className="font-bold text-xl text-(--color-foreground) mb-1">{aluna.nome}</h2>
-              <p className="text-sm text-(--color-foreground-secondary)">{idade} anos</p>
+              <p className="text-sm text-(--color-foreground-secondary)">Vencimento: dia {aluna.diaPagamento}</p>
               <span
                 className={`inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full ${aluna.status === "Ativa" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
                   }`}
               >
                 {aluna.status}
               </span>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 text-sm">
-              <Calendar className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="text-(--color-foreground-secondary)">Nascimento:</span>
-              <span className="font-medium text-(--color-foreground)">{formatDate(aluna.dataNascimento)}</span>
             </div>
           </div>
         </section>
@@ -148,23 +136,22 @@ function AlunaDetailClient({
           </button>
         </section>
 
-        {/* Responsável */}
+        {/* Status de contato */}
         <section className="bg-white rounded-lg p-4 border border-(--color-border)">
-          <h3 className="text-lg font-bold text-(--color-foreground) mb-3">Responsável</h3>
+          <h3 className="text-lg font-bold text-(--color-foreground) mb-3">Contato</h3>
 
           <div className="space-y-2">
             <div className="flex items-center gap-3">
-              <Users className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="font-medium text-(--color-foreground)">{aluna.responsavel?.nome}</span>
-            </div>
-            <div className="flex items-center gap-3">
               <Phone className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="text-(--color-foreground)">{aluna.responsavel?.whatsapp}</span>
+              <span className="text-(--color-foreground)">{aluna.whatsapp}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="text-(--color-foreground)">{aluna.responsavel?.email}</span>
-            </div>
+
+            {aluna.email && (
+              <div className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-(--color-foreground-secondary)" />
+                <span className="text-(--color-foreground)">{aluna.email}</span>
+              </div>
+            )}
           </div>
         </section>
 
@@ -371,8 +358,15 @@ function AlunaDetailClient({
             <p className="font-semibold text-(--color-foreground)">{aluna.nome}</p>
 
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Responsável</p>
-            <p className="font-medium text-(--color-foreground)">{aluna.responsavel?.nome}</p>
-            <p className="text-sm text-(--color-foreground-secondary)">{aluna.responsavel?.whatsapp}</p>
+            <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">WhatsApp</p>
+            <p className="font-medium text-(--color-foreground)">{aluna.whatsapp}</p>
+
+            {aluna.email && (
+              <>
+                <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">E-mail</p>
+                <p className="font-medium text-(--color-foreground)">{aluna.email}</p>
+              </>
+            )}
 
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Meses Pendentes</p>
             <p className="text-xl font-bold text-amber-600">
@@ -398,7 +392,7 @@ function AlunaDetailClient({
               <button
                 disabled
                 className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
-                title="WhatsApp do responsável inválido"
+                title="WhatsApp do aluno inválido"
               >
                 <MessageCircle className="w-5 h-5" />
                 Abrir WhatsApp

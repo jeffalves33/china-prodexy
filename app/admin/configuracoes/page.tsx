@@ -15,7 +15,7 @@ type PixConfig = {
 const STORAGE_KEY = "ecg_pix_config_v1"
 
 const defaultTemplate =
-  "Olá {responsavel}, tudo bem?\n\nA mensalidade de {aluna} está pendente ({meses}).\nValor total: {valor}.\n\nPIX: {pixChave} ({pixNome})\n{pixBanco}"
+  "Olá {aluno}, tudo bem?\n\nSua mensalidade está pendente ({meses}).\nValor total: {valor}.\n\nPIX: {pixChave} ({pixNome})\n{pixBanco}"
 
 function loadPixConfig(): PixConfig {
   if (typeof window === "undefined") return { pixChave: "", pixNome: "", pixBanco: "", mensagemTemplate: defaultTemplate }
@@ -48,8 +48,7 @@ export default function ConfiguracoesPage() {
   const templatePreview = useMemo(() => {
     const meses = "Janeiro 2024, Fevereiro 2024"
     return cfg.mensagemTemplate
-      .replaceAll("{responsavel}", "Responsável")
-      .replaceAll("{aluna}", "Nome da Aluna")
+      .replaceAll("{aluno}", "Nome do Aluno")
       .replaceAll("{meses}", meses)
       .replaceAll("{valor}", "R$ 240,00")
       .replaceAll("{pixChave}", cfg.pixChave || "SUA_CHAVE_PIX")
@@ -133,7 +132,7 @@ export default function ConfiguracoesPage() {
               className="w-full px-3 py-2 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) bg-white"
             />
             <p className="text-xs text-(--color-foreground-secondary) mt-2">
-              Variáveis: <span className="font-mono">{`{responsavel}`}</span>, <span className="font-mono">{`{aluna}`}</span>,{" "}
+              Variáveis: <span className="font-mono">{`{aluno}`}</span>,{" "}
               <span className="font-mono">{`{meses}`}</span>, <span className="font-mono">{`{valor}`}</span>,{" "}
               <span className="font-mono">{`{pixChave}`}</span>, <span className="font-mono">{`{pixNome}`}</span>,{" "}
               <span className="font-mono">{`{pixBanco}`}</span>

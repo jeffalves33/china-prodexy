@@ -1,31 +1,34 @@
 // app/admin/turmas/[id]/page.tsx
 "use client"
 
-import { useState } from "react"
+import { use as usePromise, useState } from "react"
 import { MobileHeader } from "@/components/layout/mobile-header"
 import { BackButton } from "@/components/ui/back-button"
 import { Modal } from "@/components/ui/modal"
 import { GraduationCap, Users, DollarSign, Clock, Plus, Edit, Trash2, AlertCircle, MessageCircle } from "lucide-react"
 import { polos, locais, turmas, alunas, horarios, professoras, pagamentosAlunas } from "@/lib/mock-data"
-import { formatCurrency, calculateAge } from "@/lib/utils"
+import { formatCurrency } from "@/lib/utils"
 import type { Horario, Aluna } from "@/lib/types"
 import Link from "next/link"
+import { normalizePhoneToWa, fillTemplate } from "@/lib/whatsapp"
+import { getPixConfig, DEFAULT_TEMPLATE } from "@/lib/pix"
 
-export default async function TurmaDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const turma = turmas.find((t) => t.id === id)
+export default function TurmaDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = usePromise(params)
+  const idStr = String(id)
+  const turma = turmas.find((t) => String(t.id) === idStr)
 
   if (!turma) return <TurmaDetailClient turmaId={id} turma={null} />
 
   const polo = polos.find((p) => p.id === turma.poloId)
   const local = locais.find((l) => l.id === turma.localId)
-  const horariosDaTurma = horarios.filter((h) => h.turmaId === turma.id)
-  const alunasDaTurma = alunas.filter((a) => a.turmaId === turma.id)
-  const professorasDaTurma = professoras.filter((p) => turma.professoraIds.includes(p.id))
+  const horariosDaTurma = horarios.filter((h) => String(h.turmaId) === String(turma.id))
+  const alunasDaTurma = alunas.filter((a) => String(a.turmaId) === String(turma.id))
+  const professorasDaTurma = professoras.filter((p) => (turma.professoraIds || []).map(String).includes(String(p.id)))
 
   return (
     <TurmaDetailClient
-      turmaId={id}
+      turmaId={idStr}
       turma={turma}
       polo={polo}
       local={local}
@@ -51,6 +54,33 @@ function TurmaDetailClient({
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false)
   const [selectedAluna, setSelectedAluna] = useState<Aluna | null>(null)
   const [isCobrarModalOpen, setIsCobrarModalOpen] = useState(false)
+
+  const pixCfg = getPixConfig()
+  const pixOk = !!pixCfg.pixChave && !!pixCfg.pixNome
+
+  const pendentes = selectedAluna
+    ? pagamentosAlunas
+      .filter((p) => String(p.alunaId) === String(selectedAluna.id) && p.status === "Pendente")
+      .sort((a, b) => b.mesReferencia.localeCompare(a.mesReferencia))
+    : []
+
+  const valorPendente = pendentes.reduce((sum, p) => sum + p.valor, 0)
+  const mesesPendentes = pendentes.map((p) => p.mesReferencia).join(", ")
+
+  const waPhone = normalizePhoneToWa(selectedAluna?.whatsapp || "")
+
+  const waText = fillTemplate(pixCfg.mensagemTemplate || DEFAULT_TEMPLATE, {
+    aluno: selectedAluna?.nome || "Aluno",
+    meses: mesesPendentes || "mês(es) pendente(s)",
+    valor: formatCurrency(valorPendente || 0),
+    pixChave: pixCfg.pixChave || "",
+    pixNome: pixCfg.pixNome || "",
+    pixBanco: pixCfg.pixBanco ? `Banco: ${pixCfg.pixBanco}` : "",
+  })
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+
+  const waUrl = waPhone ? `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}` : ""
 
   if (!turma) return <div>Turma não encontrada</div>
 
@@ -184,7 +214,6 @@ function TurmaDetailClient({
             <div className="space-y-2">
               {alunasDaTurma.map((aluna) => {
                 const pendencias = getPendencias(aluna.id)
-                const idade = calculateAge(aluna.dataNascimento)
                 const valorPendente = pagamentosAlunas
                   .filter((p) => p.alunaId === aluna.id && p.status === "Pendente")
                   .reduce((sum, p) => sum + p.valor, 0)
@@ -194,7 +223,7 @@ function TurmaDetailClient({
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <h4 className="font-semibold text-(--color-foreground)">{aluna.nome}</h4>
-                        <p className="text-sm text-(--color-foreground-secondary)">{idade} anos</p>
+                        <p className="text-sm text-(--color-foreground-secondary)">Venc. dia {aluna.diaPagamento}</p>
                       </div>
                       {pendencias > 0 && (
                         <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full flex items-center gap-1">
@@ -417,9 +446,8 @@ function TurmaDetailClient({
             <p className="text-sm text-(--color-foreground-secondary) mb-1">Aluna</p>
             <p className="font-semibold text-(--color-foreground)">{selectedAluna?.nome}</p>
 
-            <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Responsável</p>
-            <p className="font-medium text-(--color-foreground)">{selectedAluna?.responsavel.nome}</p>
-            <p className="text-sm text-(--color-foreground-secondary)">{selectedAluna?.responsavel.whatsapp}</p>
+            <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">WhatsApp</p>
+            <p className="font-medium text-(--color-foreground)">{selectedAluna?.whatsapp}</p>
 
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Meses Pendentes</p>
             <p className="text-xl font-bold text-amber-600">
@@ -436,13 +464,6 @@ function TurmaDetailClient({
             </p>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
-              <strong>Em breve:</strong> Botão para enviar mensagem automática no WhatsApp e gerar link de pagamento via
-              Stripe.
-            </p>
-          </div>
-
           <div className="flex gap-3">
             <button
               onClick={() => setIsCobrarModalOpen(false)}
@@ -450,13 +471,36 @@ function TurmaDetailClient({
             >
               Fechar
             </button>
-            <button
-              disabled
-              className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Enviar Cobrança (Em breve)
-            </button>
+
+            {pixOk ? (
+              waUrl ? (
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Abrir WhatsApp
+                </a>
+              ) : (
+                <button
+                  disabled
+                  title="WhatsApp do aluno inválido"
+                  className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Abrir WhatsApp
+                </button>
+              )
+            ) : (
+              <a
+                href="/admin/configuracoes"
+                className="flex-1 px-4 py-2.5 bg-(--color-primary) text-white rounded-lg font-semibold hover:bg-(--color-primary-hover) transition-colors flex items-center justify-center"
+              >
+                Configurar PIX
+              </a>
+            )}
           </div>
         </div>
       </Modal>

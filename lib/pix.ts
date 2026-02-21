@@ -9,7 +9,7 @@ export type PixConfig = {
 const STORAGE_KEY = "ecg_pix_config_v1"
 
 export const DEFAULT_TEMPLATE =
-  "Olá {responsavel}, tudo bem?\n\nA mensalidade de {aluna} está pendente ({meses}).\nValor total: {valor}.\n\nPIX: {pixChave} ({pixNome})\n{pixBanco}"
+  "Olá {aluno}, tudo bem?\n\nSua mensalidade está pendente ({meses}).\nValor total: {valor}.\n\nPIX: {pixChave} ({pixNome})\n{pixBanco}"
 
 export function getPixConfig(): PixConfig {
   if (typeof window === "undefined") return { pixChave: "", pixNome: "", pixBanco: "", mensagemTemplate: DEFAULT_TEMPLATE }
