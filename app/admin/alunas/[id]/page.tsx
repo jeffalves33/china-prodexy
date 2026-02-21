@@ -124,7 +124,7 @@ function AlunaDetailClient({
             </div>
             <div className="text-right">
               <p className="text-xs text-(--color-foreground-secondary)">Mensalidade</p>
-              <p className="font-bold text-(--color-foreground)">{formatCurrency(turma?.mensalidade || 0)}</p>
+              <p className="font-bold text-(--color-foreground)">{formatCurrency(aluna.mensalidade ?? turma?.mensalidade ?? 0)}</p>
             </div>
           </div>
 
@@ -295,7 +295,7 @@ function AlunaDetailClient({
             <p className="text-sm text-(--color-foreground-secondary) mb-1">Aluna</p>
             <p className="font-semibold text-(--color-foreground)">{aluna.nome}</p>
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Valor da Mensalidade</p>
-            <p className="text-xl font-bold text-(--color-foreground)">{formatCurrency(turma?.mensalidade || 0)}</p>
+            <p className="text-xl font-bold text-(--color-foreground)">{formatCurrency(aluna.mensalidade ?? turma?.mensalidade ?? 0)}</p>
           </div>
 
           <div>

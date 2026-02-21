@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="text-center mb-8">
           <div className="inline-block mb-4">
             <Image
-              src="/logo.jpeg"
+              src="/logo.png"
               alt="Equipe Carolina Garcia"
               width={120}
               height={120}

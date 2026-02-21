@@ -9,6 +9,7 @@ import { Plus, Users, AlertCircle, Edit, Trash2, ChevronRight, CheckCircle } fro
 import { polos, locais, turmas, alunas, pagamentosAlunas } from "@/lib/mock-data"
 import Link from "next/link"
 import type { Aluna } from "@/lib/types"
+import { formatCurrency } from "@/lib/utils"
 
 export default function AlunasPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -223,7 +224,7 @@ export default function AlunasPage() {
       </main>
 
       {/* Modal Adicionar */}
-      <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Adicionar Aluna" size="lg">
+      <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Adicionar Aluno" size="lg">
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -291,6 +292,20 @@ export default function AlunasPage() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Mensalidade do aluno</label>
+            <input
+              type="number"
+              min={0}
+              step="1"
+              placeholder="Ex: 220 (se vazio, usa a mensalidade da turma)"
+              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+            />
+            <p className="text-xs text-(--color-foreground-secondary) mt-1">
+              Se não informar, será usada a mensalidade média da turma.
+            </p>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -379,6 +394,21 @@ export default function AlunasPage() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Mensalidade do aluno</label>
+            <input
+              type="number"
+              min={0}
+              step="1"
+              defaultValue={selectedAluna?.mensalidade ?? ""}
+              placeholder="(vazio = mensalidade da turma)"
+              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+            />
+            <p className="text-xs text-(--color-foreground-secondary) mt-1">
+              Atual: {formatCurrency((selectedAluna?.mensalidade ?? turmas.find(t => t.id === selectedAluna?.turmaId)?.mensalidade ?? 0))}
+            </p>
           </div>
 
           <div>

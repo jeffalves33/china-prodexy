@@ -224,6 +224,7 @@ function TurmaDetailClient({
                       <div className="flex-1">
                         <h4 className="font-semibold text-(--color-foreground)">{aluna.nome}</h4>
                         <p className="text-sm text-(--color-foreground-secondary)">Venc. dia {aluna.diaPagamento}</p>
+                        <p className="text-sm text-(--color-foreground-secondary)">Mensalidade: {formatCurrency(aluna.mensalidade ?? turma.mensalidade)}</p>
                       </div>
                       {pendencias > 0 && (
                         <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full flex items-center gap-1">

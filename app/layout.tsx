@@ -7,14 +7,14 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Modaltech - ECG",
-  description: "Sistema de gestão para rede de escolas de ginástica rítmica infantil",
-  generator: "v0.app",
-  applicationName: "Ginástica Rítmica",
+  title: "Prodexy",
+  description: "Sistema de gestão para rede de escolas gerais",
+  generator: "Prodexy labs",
+  applicationName: "Prodexy",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Ginástica Rítmica",
+    title: "Prodexy",
   },
   formatDetection: {
     telephone: false,
@@ -23,17 +23,17 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/logo.jpeg",
+        url: "/logo.png",
         sizes: "192x192",
         type: "image/jpeg",
       },
       {
-        url: "/logo.jpeg",
+        url: "/logo.png",
         sizes: "512x512",
         type: "image/jpeg",
       },
     ],
-    apple: "/logo.jpeg",
+    apple: "/logo.png",
   },
 }
 

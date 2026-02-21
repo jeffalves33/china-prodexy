@@ -73,7 +73,7 @@ export function MobileHeader({ title }: MobileHeaderProps) {
             <div className="flex flex-col h-full">
               <div className="px-6 py-5 border-b border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <Image src="/logo.jpeg" alt="Equipe Carolina Garcia" width={60} height={60} className="rounded-lg" />
+                  <Image src="/logo.png" alt="Equipe Carolina Garcia" width={60} height={60} className="rounded-lg" />
                   <div className="flex-1">
                     <p className="font-bold text-gray-900 text-sm leading-tight">Equipe</p>
                     <p className="font-bold text-gray-900 text-sm leading-tight">Carolina Garcia</p>

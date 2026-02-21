@@ -51,6 +51,7 @@ export interface Horario {
 export interface Aluna {
   id: string
   nome: string
+  mensalidade?: number
   whatsapp: string
   email?: string
   diaPagamento: number // 1..31
