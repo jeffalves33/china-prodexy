@@ -42,20 +42,16 @@ export function MobileHeader({ title }: MobileHeaderProps) {
     <>
       {/* Header fixo */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200">
-        <div className="flex items-center justify-between px-4 h-14">
+        <div className="relative flex items-center px-4 h-14">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors"
             aria-label="Menu"
           >
-            {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
+            {isMenuOpen ? (<X className="w-6 h-6 text-gray-700" />) : (<Menu className="w-6 h-6 text-gray-700" />)}
           </button>
 
-          <h1 className="text-lg font-semibold text-gray-900 truncate">{title}</h1>
-
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#9EF01A] to-[#7BC918] flex items-center justify-center text-gray-900 text-sm font-semibold">
-            {user.name.charAt(0)}
-          </div>
+          <h1 className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-gray-900 truncate">{title}</h1>
         </div>
       </header>
 
@@ -72,20 +68,12 @@ export function MobileHeader({ title }: MobileHeaderProps) {
           >
             <div className="flex flex-col h-full">
               <div className="px-6 py-5 border-b border-gray-200">
-                <div className="flex items-center gap-3 mb-4">
-                  <Image src="/logo.png" alt="Equipe Carolina Garcia" width={60} height={60} className="rounded-lg" />
-                  <div className="flex-1">
-                    <p className="font-bold text-gray-900 text-sm leading-tight">Equipe</p>
-                    <p className="font-bold text-gray-900 text-sm leading-tight">Carolina Garcia</p>
-                  </div>
-                </div>
-
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#9EF01A] to-[#7BC918] flex items-center justify-center text-gray-900 text-sm font-semibold">
+                  {/*<div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#9EF01A] to-[#7BC918] flex items-center justify-center text-gray-900 text-sm font-semibold">
                     {user.name.charAt(0)}
-                  </div>
+                  </div>*/}
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-gray-900 truncate text-sm">{user.name}</p>
+                    {/*<p className="font-semibold text-gray-900 truncate text-sm">{user.name}</p>*/}
                     <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-[#9EF01A]/20 text-[#7BC918]">
                       {isAdmin ? "Administrador" : "Professora"}
                     </span>

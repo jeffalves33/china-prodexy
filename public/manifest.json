@@ -1,7 +1,7 @@
 {
-  "name": "Equipe Carolina Garcia - Gestão",
-  "short_name": "Carolina Garcia",
-  "description": "Sistema de gestão para rede de escolas de ginástica rítmica infantil",
+  "name": "Prodexy",
+  "short_name": "Prodexy Labs",
+  "description": "Sistema de gestão para rede de escolas gerais.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

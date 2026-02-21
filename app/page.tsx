@@ -16,14 +16,14 @@ export default function HomePage() {
           <div className="inline-block mb-4">
             <Image
               src="/logo.png"
-              alt="Equipe Carolina Garcia"
+              alt="Prodexy"
               width={120}
               height={120}
               className="rounded-2xl shadow-lg"
             />
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Equipe Carolina Garcia</h1>
-          <p className="text-muted-foreground">Sistema de Gestão de Ginástica Rítmica</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">China</h1>
+          <p className="text-muted-foreground">Futevôlei</p>
         </div>
 
         <div className="bg-card rounded-lg shadow-lg p-6 space-y-4">
@@ -41,8 +41,6 @@ export default function HomePage() {
             </div>
           </Button>
         </div>
-
-        <p className="text-center text-sm text-muted-foreground mt-6">Versão 1.0 • PWA Mobile First</p>
       </div>
     </div>
   )

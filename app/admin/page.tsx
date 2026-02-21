@@ -50,7 +50,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
-      <MobileHeader title="Dashboard Admin" />
+      <MobileHeader title="Dashboard" />
 
       <main className="px-4 pb-6 space-y-6">
         <section className="grid grid-cols-2 gap-3 pt-4">
