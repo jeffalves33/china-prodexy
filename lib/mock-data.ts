@@ -1,4 +1,4 @@
-import type { Polo, Local, Turma, Horario, Aluna, Professora, PagamentoAluna, PagamentoProfessora, User } from "./types"
+import type { Local, Turma, Horario, Aluna, Professora, PagamentoAluna, PagamentoProfessora, User } from "./types"
 
 // Usuário logado (pode ser alterado para simular diferentes perfis)
 export const currentUser: User = {
@@ -8,31 +8,32 @@ export const currentUser: User = {
   role: "admin",
 }
 
-// Polos
-export const polos: Polo[] = [
-  { id: "1", name: "Polo São Mateus", city: "São Mateus", createdAt: new Date("2023-01-15") },
-  { id: "2", name: "Polo Vitória", city: "Vitória", createdAt: new Date("2023-02-20") },
-  { id: "3", name: "Polo Linhares", city: "Linhares", createdAt: new Date("2023-03-10") },
-]
-
 // Locais
 export const locais: Local[] = [
-  { id: "1", poloId: "1", name: "Escola Elesmão", address: "Rua das Flores, 123", createdAt: new Date("2023-01-20") },
+  {
+    id: "1",
+    name: "Escola Elesmão",
+    address: "Rua das Flores, 123",
+    createdAt: new Date("2023-01-20")
+  },
   {
     id: "2",
-    poloId: "1",
     name: "Ginásio Artístico Municipal",
     address: "Av. Principal, 456",
     createdAt: new Date("2023-01-25"),
   },
   {
     id: "3",
-    poloId: "2",
     name: "Centro Esportivo Vitória",
     address: "Rua Central, 789",
     createdAt: new Date("2023-02-25"),
   },
-  { id: "4", poloId: "3", name: "Ginásio Linhares", address: "Av. Beira Mar, 321", createdAt: new Date("2023-03-15") },
+  {
+    id: "4",
+    name: "Ginásio Linhares",
+    address: "Av. Beira Mar, 321",
+    createdAt: new Date("2023-03-15")
+  },
 ]
 
 // Professoras
@@ -67,56 +68,46 @@ export const professoras: Professora[] = [
 export const turmas: Turma[] = [
   {
     id: "1",
-    poloId: "1",
     localId: "1",
     name: "Iniciante 1",
     nivel: "Iniciante 1",
     mensalidade: 150,
-    idadeAlvo: "4-6 anos",
     professoraIds: ["1"],
     createdAt: new Date("2023-02-01"),
   },
   {
     id: "2",
-    poloId: "1",
     localId: "1",
     name: "Iniciante 2",
     nivel: "Iniciante 2",
     mensalidade: 180,
-    idadeAlvo: "6-8 anos",
     professoraIds: ["1"],
     createdAt: new Date("2023-02-01"),
   },
   {
     id: "3",
-    poloId: "1",
     localId: "2",
     name: "Intermediário A",
     nivel: "Intermediário",
     mensalidade: 220,
-    idadeAlvo: "8-10 anos",
     professoraIds: ["2"],
     createdAt: new Date("2023-02-05"),
   },
   {
     id: "4",
-    poloId: "2",
     localId: "3",
     name: "Avançado",
     nivel: "Avançado",
     mensalidade: 280,
-    idadeAlvo: "10-14 anos",
     professoraIds: ["2"],
     createdAt: new Date("2023-03-01"),
   },
   {
     id: "5",
-    poloId: "3",
     localId: "4",
     name: "Iniciante 1",
     nivel: "Iniciante 1",
     mensalidade: 140,
-    idadeAlvo: "4-6 anos",
     professoraIds: ["3"],
     createdAt: new Date("2023-03-20"),
   },

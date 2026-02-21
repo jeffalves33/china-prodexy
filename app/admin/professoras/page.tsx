@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { SearchInput } from "@/components/ui/search-input"
 import { Modal } from "@/components/ui/modal"
 import { Plus, GraduationCap, Users, Edit, Trash2, ChevronRight, CheckCircle, AlertCircle } from "lucide-react"
-import { professoras, turmas, alunas, pagamentosProfessoras, polos } from "@/lib/mock-data"
+import { professoras, locais, turmas, alunas, pagamentosProfessoras } from "@/lib/mock-data"
 import Link from "next/link"
 import type { Professora } from "@/lib/types"
 
@@ -84,9 +84,6 @@ export default function ProfessorasPage() {
             filteredProfessoras.map((prof) => {
               const turmasDaProfessora = turmas.filter((t) => t.professoraIds.includes(prof.id))
               const alunasDaProfessora = alunas.filter((a) => turmasDaProfessora.some((t) => t.id === a.turmaId))
-              const poloDaProfessora = new Set(
-                turmasDaProfessora.map((t) => polos.find((p) => p.id === t.poloId)?.name),
-              )
               const salarioPago = getSalarioStatus(prof.id)
 
               return (
@@ -100,11 +97,6 @@ export default function ProfessorasPage() {
                         <h3 className="font-semibold text-(--color-foreground) mb-1">{prof.nome}</h3>
                         <p className="text-sm text-(--color-foreground-secondary)">{prof.email}</p>
                         <p className="text-sm text-(--color-foreground-secondary)">{prof.telefone}</p>
-                        {poloDaProfessora.size > 0 && (
-                          <p className="text-xs text-(--color-foreground-muted) mt-1">
-                            {Array.from(poloDaProfessora).join(", ")}
-                          </p>
-                        )}
                       </div>
                       <div className="flex flex-col items-end gap-2">
                         {salarioPago ? (
@@ -221,7 +213,7 @@ export default function ProfessorasPage() {
                 <label key={t.id} className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" value={t.id} className="w-4 h-4 text-(--color-primary) rounded" />
                   <span className="text-sm">
-                    {t.name} - {polos.find((p) => p.id === t.poloId)?.name}
+                    {t.name} - {locais.find((l) => l.id === t.localId)?.name}
                   </span>
                 </label>
               ))}

@@ -4,7 +4,7 @@
 import { MobileHeader } from "@/components/layout/mobile-header"
 import { BackButton } from "@/components/ui/back-button"
 import { Building2, GraduationCap, Users, MapPin, User } from "lucide-react"
-import { locais, polos, turmas, alunas, professoras } from "@/lib/mock-data"
+import { locais, turmas, alunas, professoras } from "@/lib/mock-data"
 import Link from "next/link"
 
 export default async function LocalDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -13,7 +13,6 @@ export default async function LocalDetailPage({ params }: { params: Promise<{ id
 
   if (!local) return <div>Local não encontrado</div>
 
-  const polo = polos.find((p) => p.id === local.poloId)
   const turmasDoLocal = turmas.filter((t) => t.localId === local.id)
   const alunasDoLocal = alunas.filter((a) => turmasDoLocal.some((t) => t.id === a.turmaId))
   const professorasDoLocal = professoras.filter((p) => turmasDoLocal.some((t) => t.professoraIds.includes(p.id)))
@@ -36,10 +35,6 @@ export default async function LocalDetailPage({ params }: { params: Promise<{ id
             <div className="flex-1">
               <h2 className="font-bold text-xl text-(--color-foreground) mb-1">{local.name}</h2>
               <div className="flex items-center gap-2 text-sm text-(--color-foreground-secondary) mb-1">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>
-                  {polo?.name} • {polo?.city}
-                </span>
               </div>
               {local.address && <p className="text-sm text-(--color-foreground-muted)">{local.address}</p>}
             </div>

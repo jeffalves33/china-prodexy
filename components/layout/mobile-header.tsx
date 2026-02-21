@@ -20,7 +20,6 @@ export function MobileHeader({ title }: MobileHeaderProps) {
 
   const adminMenuItems = [
     { label: "Dashboard", href: "/admin" },
-    { label: "Polos", href: "/admin/polos" },
     { label: "Locais", href: "/admin/locais" },
     { label: "Turmas", href: "/admin/turmas" },
     { label: "Alunas", href: "/admin/alunas" },

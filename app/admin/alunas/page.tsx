@@ -6,14 +6,13 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { SearchInput } from "@/components/ui/search-input"
 import { Modal } from "@/components/ui/modal"
 import { Plus, Users, AlertCircle, Edit, Trash2, ChevronRight, CheckCircle } from "lucide-react"
-import { polos, locais, turmas, alunas, pagamentosAlunas } from "@/lib/mock-data"
+import { locais, turmas, alunas, pagamentosAlunas } from "@/lib/mock-data"
 import Link from "next/link"
 import type { Aluna } from "@/lib/types"
 import { formatCurrency } from "@/lib/utils"
 
 export default function AlunasPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredPolo, setFilteredPolo] = useState("")
   const [filteredLocal, setFilteredLocal] = useState("")
   const [filteredTurma, setFilteredTurma] = useState("")
   const [filteredStatus, setFilteredStatus] = useState("")
@@ -30,7 +29,6 @@ export default function AlunasPage() {
   const filteredAlunas = alunas.filter((aluna) => {
     const turma = turmas.find((t) => t.id === aluna.turmaId)
     const matchesSearch = aluna.nome.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPolo = !filteredPolo || turma?.poloId === filteredPolo
     const matchesLocal = !filteredLocal || turma?.localId === filteredLocal
     const matchesTurma = !filteredTurma || aluna.turmaId === filteredTurma
     const pendencias = getPendencias(aluna.id)
@@ -39,15 +37,11 @@ export default function AlunasPage() {
       (filteredStatus === "emdia" && pendencias === 0) ||
       (filteredStatus === "pendente" && pendencias > 0)
 
-    return matchesSearch && matchesPolo && matchesLocal && matchesTurma && matchesStatus
+    return matchesSearch && matchesLocal && matchesTurma && matchesStatus
   })
 
-  const locaisDisponiveis = filteredPolo ? locais.filter((l) => l.poloId === filteredPolo) : locais
-  const turmasDisponiveis = filteredLocal
-    ? turmas.filter((t) => t.localId === filteredLocal)
-    : filteredPolo
-      ? turmas.filter((t) => t.poloId === filteredPolo)
-      : turmas
+  const locaisDisponiveis = locais
+  const turmasDisponiveis = filteredLocal ? turmas.filter((t) => t.localId === filteredLocal) : turmas
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
@@ -57,52 +51,28 @@ export default function AlunasPage() {
         <div className="pt-4 space-y-3">
           <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Buscar aluna..." />
 
-          {/* Filtrar por Polo */}
+          {/* Filtrar por Local */}
+
           <div>
             <label className="block text-xs font-medium text-(--color-foreground-secondary) mb-1.5 ml-1">
-              Filtrar por Polo
+              Filtrar por Local
             </label>
             <select
-              value={filteredPolo}
+              value={filteredLocal}
               onChange={(e) => {
-                setFilteredPolo(e.target.value)
-                setFilteredLocal("")
+                setFilteredLocal(e.target.value)
                 setFilteredTurma("")
               }}
               className="w-full px-4 py-2.5 bg-white border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm"
             >
-              <option value="">Todos os polos</option>
-              {polos.map((polo) => (
-                <option key={polo.id} value={polo.id}>
-                  {polo.name} - {polo.city}
+              <option value="">Todos os locais</option>
+              {locaisDisponiveis.map((local) => (
+                <option key={local.id} value={local.id}>
+                  {local.name}
                 </option>
               ))}
             </select>
           </div>
-
-          {/* Filtrar por Local */}
-          {filteredPolo && (
-            <div>
-              <label className="block text-xs font-medium text-(--color-foreground-secondary) mb-1.5 ml-1">
-                Filtrar por Local
-              </label>
-              <select
-                value={filteredLocal}
-                onChange={(e) => {
-                  setFilteredLocal(e.target.value)
-                  setFilteredTurma("")
-                }}
-                className="w-full px-4 py-2.5 bg-white border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm"
-              >
-                <option value="">Todos os locais</option>
-                {locaisDisponiveis.map((local) => (
-                  <option key={local.id} value={local.id}>
-                    {local.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
 
           {/* Filtrar por Turma */}
           <div>
@@ -159,7 +129,6 @@ export default function AlunasPage() {
           ) : (
             filteredAlunas.map((aluna) => {
               const turma = turmas.find((t) => t.id === aluna.turmaId)
-              const polo = polos.find((p) => p.id === turma?.poloId)
               const local = locais.find((l) => l.id === turma?.localId)
               const pendencias = getPendencias(aluna.id)
 
@@ -173,7 +142,7 @@ export default function AlunasPage() {
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-(--color-foreground) truncate">{aluna.nome}</h3>
                         <p className="text-xs text-(--color-foreground-secondary) truncate">
-                          Venc. dia {aluna.diaPagamento} • {turma?.name} • {polo?.name}
+                          Venc. dia {aluna.diaPagamento} • {turma?.name} • {local?.name}
                         </p>
                       </div>
 
@@ -288,7 +257,7 @@ export default function AlunasPage() {
               <option value="">Selecione uma turma</option>
               {turmas.map((t) => (
                 <option key={t.id} value={t.id}>
-                  {t.name} - {polos.find((p) => p.id === t.poloId)?.name}
+                  {t.name} - {locais.find((l) => l.id === t.localId)?.name}
                 </option>
               ))}
             </select>
@@ -390,7 +359,7 @@ export default function AlunasPage() {
               <option value="">Selecione uma turma</option>
               {turmas.map((t) => (
                 <option key={t.id} value={t.id}>
-                  {t.name} - {polos.find((p) => p.id === t.poloId)?.name}
+                  {t.name} - {locais.find((l) => l.id === t.localId)?.name}
                 </option>
               ))}
             </select>

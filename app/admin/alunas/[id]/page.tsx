@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { Modal } from "@/components/ui/modal"
 import { BackButton } from "@/components/ui/back-button"
 import { Users, Phone, Mail, Calendar, AlertCircle, CheckCircle, MessageCircle } from "lucide-react"
-import { alunas, turmas, polos, locais, pagamentosAlunas } from "@/lib/mock-data"
+import { alunas, turmas, locais, pagamentosAlunas } from "@/lib/mock-data"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import { normalizePhoneToWa, fillTemplate } from "@/lib/whatsapp"
 import { getPixConfig, DEFAULT_TEMPLATE } from "@/lib/pix"
@@ -19,7 +19,6 @@ export default function AlunaDetailPage({ params }: { params: Promise<{ id: stri
   if (!aluna) return <AlunaDetailClient alunaId={id} aluna={null} />
 
   const turma = turmas.find((t) => String(t.id) === String(aluna.turmaId))
-  const polo = polos.find((p) => p.id === turma?.poloId)
   const local = locais.find((l) => l.id === turma?.localId)
 
   const pagamentos = pagamentosAlunas
@@ -33,7 +32,6 @@ export default function AlunaDetailPage({ params }: { params: Promise<{ id: stri
       alunaId={idStr}
       aluna={aluna}
       turma={turma}
-      polo={polo}
       local={local}
       pagamentos={pagamentos}
       pendentes={pendentes}
@@ -46,7 +44,6 @@ function AlunaDetailClient({
   alunaId,
   aluna,
   turma,
-  polo,
   local,
   pagamentos = [],
   pendentes = [],
@@ -116,7 +113,7 @@ function AlunaDetailClient({
             <div>
               <p className="font-semibold text-(--color-foreground)">{turma?.name}</p>
               <p className="text-sm text-(--color-foreground-secondary)">
-                {polo?.name} • {local?.name}
+                {local?.name}
               </p>
               <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-(--color-primary-light) text-(--color-primary)">
                 {turma?.nivel}
@@ -254,14 +251,7 @@ function AlunaDetailClient({
               <option value="">Selecione uma turma</option>
               {turmas
                 .filter((t) => t.id !== aluna.turmaId)
-                .map((t) => {
-                  const p = polos.find((po) => po.id === t.poloId)
-                  return (
-                    <option key={t.id} value={t.id}>
-                      {t.name} - {p?.name}
-                    </option>
-                  )
-                })}
+                .map((t) => { return (<option key={t.id} value={t.id}>{t.name}</option>) })}
             </select>
           </div>
           <div className="flex gap-3 pt-2">

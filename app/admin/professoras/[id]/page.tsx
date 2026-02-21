@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { BackButton } from "@/components/ui/back-button"
 import { Modal } from "@/components/ui/modal"
 import { GraduationCap, Users, Phone, Mail, MapPin, CheckCircle, AlertCircle } from "lucide-react"
-import { professoras, turmas, alunas, polos, locais, pagamentosProfessoras } from "@/lib/mock-data"
+import { professoras, turmas, alunas, locais, pagamentosProfessoras } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
 import Link from "next/link"
 
@@ -18,12 +18,6 @@ export default async function ProfessoraDetailPage({ params }: { params: Promise
 
   const turmasDaProfessora = turmas.filter((t) => t.professoraIds.includes(professora.id))
   const alunasDaProfessora = alunas.filter((a) => turmasDaProfessora.some((t) => t.id === a.turmaId))
-  const polosDaProfessora = new Set(
-    turmasDaProfessora.map((t) => {
-      const polo = polos.find((p) => p.id === t.poloId)
-      return polo?.name
-    }),
-  )
 
   const pagamentos = pagamentosProfessoras
     .filter((p) => p.professoraId === professora.id)
@@ -35,7 +29,6 @@ export default async function ProfessoraDetailPage({ params }: { params: Promise
       professora={professora}
       turmasDaProfessora={turmasDaProfessora}
       alunasDaProfessora={alunasDaProfessora}
-      polosDaProfessora={polosDaProfessora}
       pagamentos={pagamentos}
     />
   )
@@ -46,7 +39,6 @@ function ProfessoraDetailClient({
   professora,
   turmasDaProfessora = [],
   alunasDaProfessora = [],
-  polosDaProfessora = new Set(),
   pagamentos = [],
 }: any) {
   const [isPagamentoModalOpen, setIsPagamentoModalOpen] = useState(false)
@@ -79,12 +71,6 @@ function ProfessoraDetailClient({
                   <Phone className="w-3.5 h-3.5" />
                   <span>{professora.telefone}</span>
                 </div>
-                {polosDaProfessora.size > 0 && (
-                  <div className="flex items-center gap-2 text-sm text-(--color-foreground-secondary)">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{Array.from(polosDaProfessora).join(", ")}</span>
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -114,7 +100,6 @@ function ProfessoraDetailClient({
 
           <div className="space-y-2">
             {turmasDaProfessora.map((turma) => {
-              const polo = polos.find((p) => p.id === turma.poloId)
               const local = locais.find((l) => l.id === turma.localId)
               const alunasDaTurma = alunas.filter((a) => a.turmaId === turma.id)
 
@@ -125,9 +110,6 @@ function ProfessoraDetailClient({
                   className="block bg-white rounded-lg p-4 border border-(--color-border) hover:shadow-md transition-shadow"
                 >
                   <h4 className="font-semibold text-(--color-foreground) mb-1">{turma.name}</h4>
-                  <p className="text-sm text-(--color-foreground-secondary) mb-2">
-                    {polo?.name} • {local?.name}
-                  </p>
                   <div className="flex items-center gap-4 text-sm">
                     <span className="flex items-center gap-1 text-(--color-foreground-secondary)">
                       <Users className="w-3.5 h-3.5" />

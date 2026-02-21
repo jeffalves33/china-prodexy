@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { StatCard } from "@/components/ui/stat-card"
 import { Modal } from "@/components/ui/modal"
 import { DollarSign, TrendingUp, AlertCircle, CheckCircle } from "lucide-react"
-import { polos, turmas, alunas, professoras, pagamentosAlunas, pagamentosProfessoras } from "@/lib/mock-data"
+import { locais, turmas, alunas, professoras, pagamentosAlunas, pagamentosProfessoras } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
 
 type TabType = "mensalidades" | "salarios"
@@ -34,15 +34,15 @@ export default function FinanceiroPage() {
   const totalSalariosPendentes = totalSalariosPrevistos - totalSalariosPagos
 
   // Mensalidades por Polo
-  const mensalidadesPorPolo = polos.map((polo) => {
-    const turmasDoPolo = turmas.filter((t) => t.poloId === polo.id)
-    const alunasDoPolo = alunas.filter((a) => turmasDoPolo.some((t) => t.id === a.turmaId))
-    const pagamentosPolo = pagamentosMes.filter((p) => alunasDoPolo.some((a) => a.id === p.alunaId))
-    const esperado = pagamentosPolo.reduce((sum, p) => sum + p.valor, 0)
-    const recebido = pagamentosPolo.filter((p) => p.status === "Pago").reduce((sum, p) => sum + p.valor, 0)
+  const mensalidadesPorLocal = locais.map((local) => {
+    const turmasDoLocal = turmas.filter((t) => t.localId === local.id)
+    const alunasDoLocal = alunas.filter((a) => turmasDoLocal.some((t) => t.id === a.turmaId))
+    const pagamentosLocal = pagamentosMes.filter((p) => alunasDoLocal.some((a) => a.id === p.alunaId))
+    const esperado = pagamentosLocal.reduce((sum, p) => sum + p.valor, 0)
+    const recebido = pagamentosLocal.filter((p) => p.status === "Pago").reduce((sum, p) => sum + p.valor, 0)
     const pendente = esperado - recebido
 
-    return { polo, esperado, recebido, pendente, alunas: alunasDoPolo.length }
+    return { local, esperado, recebido, pendente, alunas: alunasDoLocal.length }
   })
 
   return (
@@ -118,11 +118,11 @@ export default function FinanceiroPage() {
               <h2 className="text-lg font-bold text-(--color-foreground)">Mensalidades por Polo</h2>
 
               <div className="space-y-2">
-                {mensalidadesPorPolo.map(({ polo, esperado, recebido, pendente, alunas }) => (
-                  <div key={polo.id} className="bg-white rounded-lg p-4 border border-(--color-border)">
+                {mensalidadesPorLocal.map(({ local, esperado, recebido, pendente, alunas }) => (
+                  <div key={local.id} className="bg-white rounded-lg p-4 border border-(--color-border)">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="font-semibold text-(--color-foreground)">{polo.name}</h3>
+                        <h3 className="font-semibold text-(--color-foreground)">{local.name}</h3>
                         <p className="text-sm text-(--color-foreground-secondary)">{alunas} alunas</p>
                       </div>
                       {pendente > 0 && (
@@ -188,8 +188,8 @@ export default function FinanceiroPage() {
                 {professoras.map((prof) => {
                   const pagamento = pagamentosSalariosMes.find((p) => p.professoraId === prof.id)
                   const turmasDaProfessora = turmas.filter((t) => t.professoraIds.includes(prof.id))
-                  const polosDaProfessora = new Set(
-                    turmasDaProfessora.map((t) => polos.find((p) => p.id === t.poloId)?.name),
+                  const locaisDaProfessora = new Set(
+                    turmasDaProfessora.map((t) => locais.find((p) => p.id === t.localId)?.name),
                   )
 
                   return (
@@ -198,7 +198,7 @@ export default function FinanceiroPage() {
                         <div className="flex-1">
                           <h3 className="font-semibold text-(--color-foreground)">{prof.nome}</h3>
                           <p className="text-sm text-(--color-foreground-secondary)">
-                            {Array.from(polosDaProfessora).join(", ")}
+                            {Array.from(locaisDaProfessora).join(", ")}
                           </p>
                           <p className="text-xs text-(--color-foreground-muted) mt-1">
                             {turmasDaProfessora.length} turma{turmasDaProfessora.length > 1 ? "s" : ""}

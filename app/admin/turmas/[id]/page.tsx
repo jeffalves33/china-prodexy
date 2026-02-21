@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { BackButton } from "@/components/ui/back-button"
 import { Modal } from "@/components/ui/modal"
 import { GraduationCap, Users, DollarSign, Clock, Plus, Edit, Trash2, AlertCircle, MessageCircle } from "lucide-react"
-import { polos, locais, turmas, alunas, horarios, professoras, pagamentosAlunas } from "@/lib/mock-data"
+import { locais, turmas, alunas, horarios, professoras, pagamentosAlunas } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
 import type { Horario, Aluna } from "@/lib/types"
 import Link from "next/link"
@@ -20,7 +20,6 @@ export default function TurmaDetailPage({ params }: { params: Promise<{ id: stri
 
   if (!turma) return <TurmaDetailClient turmaId={id} turma={null} />
 
-  const polo = polos.find((p) => p.id === turma.poloId)
   const local = locais.find((l) => l.id === turma.localId)
   const horariosDaTurma = horarios.filter((h) => String(h.turmaId) === String(turma.id))
   const alunasDaTurma = alunas.filter((a) => String(a.turmaId) === String(turma.id))
@@ -30,7 +29,6 @@ export default function TurmaDetailPage({ params }: { params: Promise<{ id: stri
     <TurmaDetailClient
       turmaId={idStr}
       turma={turma}
-      polo={polo}
       local={local}
       horariosDaTurma={horariosDaTurma}
       alunasDaTurma={alunasDaTurma}
@@ -42,7 +40,6 @@ export default function TurmaDetailPage({ params }: { params: Promise<{ id: stri
 function TurmaDetailClient({
   turmaId,
   turma,
-  polo,
   local,
   horariosDaTurma = [],
   alunasDaTurma = [],
@@ -105,7 +102,7 @@ function TurmaDetailClient({
             <div className="flex-1">
               <h2 className="font-bold text-xl text-(--color-foreground) mb-1">{turma.name}</h2>
               <p className="text-sm text-(--color-foreground-secondary)">
-                {polo?.name} • {local?.name}
+                {local?.name}
               </p>
               <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-(--color-primary-light) text-(--color-primary)">
                 {turma.nivel}
@@ -130,12 +127,6 @@ function TurmaDetailClient({
               <p className="text-lg font-bold text-(--color-foreground)">{alunasDaTurma.length}</p>
             </div>
           </div>
-
-          {turma.idadeAlvo && (
-            <p className="text-sm text-(--color-foreground-secondary)">
-              <strong>Idade alvo:</strong> {turma.idadeAlvo}
-            </p>
-          )}
 
           {professorasDaTurma.length > 0 && (
             <p className="text-sm text-(--color-foreground-secondary) mt-1">
@@ -418,7 +409,7 @@ function TurmaDetailClient({
                 .filter((t) => t.id !== turmaId)
                 .map((t) => (
                   <option key={t.id} value={t.id}>
-                    {t.name} - {polos.find((p) => p.id === t.poloId)?.name}
+                    {t.name} - {locais.find((l) => l.id === t.localId)?.name}
                   </option>
                 ))}
             </select>

@@ -10,17 +10,8 @@ export interface User {
   avatar?: string
 }
 
-export interface Polo {
-  id: string
-  name: string
-  city: string
-  observations?: string
-  createdAt: Date
-}
-
 export interface Local {
   id: string
-  poloId: string
   name: string
   address?: string
   observations?: string
@@ -29,12 +20,10 @@ export interface Local {
 
 export interface Turma {
   id: string
-  poloId: string
   localId: string
   name: string
   nivel: "Iniciante 1" | "Iniciante 2" | "Intermediário" | "Avançado"
   mensalidade: number
-  idadeAlvo?: string
   professoraIds: string[]
   createdAt: Date
 }

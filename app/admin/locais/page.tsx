@@ -6,13 +6,12 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { SearchInput } from "@/components/ui/search-input"
 import { Modal } from "@/components/ui/modal"
 import { Plus, Building2, GraduationCap, Users, Edit, Trash2, ChevronRight, User } from "lucide-react"
-import { polos, locais, turmas, alunas, professoras } from "@/lib/mock-data"
+import { locais, turmas, alunas, professoras } from "@/lib/mock-data"
 import Link from "next/link"
 import type { Local } from "@/lib/types"
 
 export default function LocaisPage() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredPolo, setFilteredPolo] = useState("")
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -21,14 +20,8 @@ export default function LocaisPage() {
   // Filtrar locais
   const filteredLocais = locais.filter((local) => {
     const matchesSearch = local.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPolo = !filteredPolo || local.poloId === filteredPolo
-    return matchesSearch && matchesPolo
+    return matchesSearch
   })
-
-  const poloOptions = [
-    { value: "", label: "Todos" },
-    ...polos.map((p) => ({ value: p.id, label: `${p.name} - ${p.city}` })),
-  ]
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
@@ -38,24 +31,6 @@ export default function LocaisPage() {
         {/* Filtros */}
         <div className="pt-4 space-y-3">
           <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Buscar local..." />
-
-          <div>
-            <label className="block text-xs font-medium text-(--color-foreground-secondary) mb-1.5 ml-1">
-              Filtrar por Polo
-            </label>
-            <select
-              value={filteredPolo}
-              onChange={(e) => setFilteredPolo(e.target.value)}
-              className="w-full px-4 py-2.5 bg-white border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm"
-            >
-              <option value="">Todos os polos</option>
-              {polos.map((polo) => (
-                <option key={polo.id} value={polo.id}>
-                  {polo.name} - {polo.city}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <button
             onClick={() => setIsAddModalOpen(true)}
@@ -75,7 +50,6 @@ export default function LocaisPage() {
             </div>
           ) : (
             filteredLocais.map((local) => {
-              const polo = polos.find((p) => p.id === local.poloId)
               const turmasDoLocal = turmas.filter((t) => t.localId === local.id)
               const alunasDoLocal = alunas.filter((a) => turmasDoLocal.some((t) => t.id === a.turmaId))
 
@@ -92,9 +66,6 @@ export default function LocaisPage() {
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <h3 className="font-semibold text-(--color-foreground) mb-1">{local.name}</h3>
-                        <p className="text-sm text-(--color-foreground-secondary)">
-                          {polo?.name} • {polo?.city}
-                        </p>
                       </div>
                       <ChevronRight className="w-5 h-5 text-(--color-foreground-muted) flex-shrink-0" />
                     </div>
@@ -171,20 +142,6 @@ export default function LocaisPage() {
             setIsAddModalOpen(false)
           }}
         >
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Polo</label>
-            <select
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            >
-              <option value="">Selecione um polo</option>
-              {polos.map((polo) => (
-                <option key={polo.id} value={polo.id}>
-                  {polo.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Nome do Local</label>
@@ -232,20 +189,6 @@ export default function LocaisPage() {
             setIsEditModalOpen(false)
           }}
         >
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Polo</label>
-            <select
-              defaultValue={selectedLocal?.poloId}
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            >
-              {polos.map((polo) => (
-                <option key={polo.id} value={polo.id}>
-                  {polo.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Nome do Local</label>

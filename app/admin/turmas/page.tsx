@@ -6,7 +6,7 @@ import { MobileHeader } from "@/components/layout/mobile-header"
 import { SearchInput } from "@/components/ui/search-input"
 import { Modal } from "@/components/ui/modal"
 import { Plus, GraduationCap, Users, DollarSign, Edit, Trash2, ChevronRight } from "lucide-react"
-import { polos, locais, turmas, alunas, professoras } from "@/lib/mock-data"
+import { locais, turmas, alunas, professoras } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
 import Link from "next/link"
 import type { Turma } from "@/lib/types"
@@ -24,12 +24,12 @@ export default function TurmasPage() {
   // Filtrar turmas
   const filteredTurmas = turmas.filter((turma) => {
     const matchesSearch = turma.name.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesPolo = !filteredPolo || turma.poloId === filteredPolo
+    const matchesPolo = !filteredPolo || turma.localId === filteredPolo
     const matchesLocal = !filteredLocal || turma.localId === filteredLocal
     return matchesSearch && matchesPolo && matchesLocal
   })
 
-  const locaisDisponiveis = filteredPolo ? locais.filter((l) => l.poloId === filteredPolo) : locais
+  const locaisDisponiveis = filteredPolo ? locais.filter((l) => l.id === filteredPolo) : locais
 
   return (
     <div className="min-h-screen bg-(--color-background-secondary)">
@@ -39,27 +39,6 @@ export default function TurmasPage() {
         {/* Filtros */}
         <div className="pt-4 space-y-3">
           <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Buscar turma..." />
-
-          <div>
-            <label className="block text-xs font-medium text-(--color-foreground-secondary) mb-1.5 ml-1">
-              Filtrar por Polo
-            </label>
-            <select
-              value={filteredPolo}
-              onChange={(e) => {
-                setFilteredPolo(e.target.value)
-                setFilteredLocal("")
-              }}
-              className="w-full px-4 py-2.5 bg-white border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) text-sm"
-            >
-              <option value="">Todos os polos</option>
-              {polos.map((polo) => (
-                <option key={polo.id} value={polo.id}>
-                  {polo.name} - {polo.city}
-                </option>
-              ))}
-            </select>
-          </div>
 
           {filteredPolo && (
             <div>
@@ -99,7 +78,6 @@ export default function TurmasPage() {
             </div>
           ) : (
             filteredTurmas.map((turma) => {
-              const polo = polos.find((p) => p.id === turma.poloId)
               const local = locais.find((l) => l.id === turma.localId)
               const alunasDaTurma = alunas.filter((a) => a.turmaId === turma.id)
               const professora = professoras.find((p) => turma.professoraIds.includes(p.id))
@@ -114,7 +92,7 @@ export default function TurmasPage() {
                       <div className="flex-1">
                         <h3 className="font-semibold text-(--color-foreground) mb-1">{turma.name}</h3>
                         <p className="text-sm text-(--color-foreground-secondary)">
-                          {polo?.name} • {local?.name}
+                          {local?.name}
                         </p>
                         <span className="inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full bg-(--color-primary-light) text-(--color-primary)">
                           {turma.nivel}
@@ -193,20 +171,6 @@ export default function TurmasPage() {
             setIsAddModalOpen(false)
           }}
         >
-          <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Polo</label>
-            <select
-              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-              required
-            >
-              <option value="">Selecione um polo</option>
-              {polos.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Local</label>
