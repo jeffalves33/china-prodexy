@@ -74,7 +74,7 @@ export function MobileHeader({ title }: MobileHeaderProps) {
                   <div className="flex-1 min-w-0">
                     {/*<p className="font-semibold text-gray-900 truncate text-sm">{user.name}</p>*/}
                     <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-[#9EF01A]/20 text-[#7BC918]">
-                      {isAdmin ? "Administrador" : "Professora"}
+                      {isAdmin ? "Administrador" : "Professor"}
                     </span>
                   </div>
                 </div>

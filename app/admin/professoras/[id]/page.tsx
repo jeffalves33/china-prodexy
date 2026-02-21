@@ -198,7 +198,7 @@ function ProfessoraDetailClient({
           }}
         >
           <div className="bg-(--color-background-secondary) rounded-lg p-4">
-            <p className="text-sm text-(--color-foreground-secondary) mb-1">Professora</p>
+            <p className="text-sm text-(--color-foreground-secondary) mb-1">Professor</p>
             <p className="font-semibold text-(--color-foreground)">{professora.nome}</p>
             <p className="text-sm text-(--color-foreground-secondary) mt-2 mb-1">Valor</p>
             <p className="text-xl font-bold text-(--color-foreground)">

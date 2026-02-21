@@ -17,6 +17,7 @@ export default function ProfessorasPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [selectedProfessora, setSelectedProfessora] = useState<Professora | null>(null)
+  const [editTurmaIds, setEditTurmaIds] = useState<string[]>([])
 
   const [salarioMensal, setSalarioMensal] = useState("")
 
@@ -70,7 +71,7 @@ export default function ProfessorasPage() {
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-(--color-primary) text-white rounded-lg font-semibold hover:bg-(--color-primary-hover) transition-colors"
           >
             <Plus className="w-5 h-5" />
-            Adicionar Professora
+            Adicionar Professor
           </button>
         </div>
 
@@ -141,6 +142,10 @@ export default function ProfessorasPage() {
                     <button
                       onClick={() => {
                         setSelectedProfessora(prof)
+
+                        const ids = turmas.filter((t) => (t.professoraIds || []).map(String).includes(String(prof.id))).map((t) => String(t.id))
+
+                        setEditTurmaIds(ids)
                         setIsEditModalOpen(true)
                       }}
                       className="flex-1 flex items-center justify-center gap-2 px-4 py-3 text-(--color-foreground-secondary) hover:bg-(--color-background-tertiary) transition-colors"
@@ -168,7 +173,7 @@ export default function ProfessorasPage() {
       </main>
 
       {/* Modal Adicionar */}
-      <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Adicionar Professora">
+      <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Adicionar Professor">
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -250,7 +255,7 @@ export default function ProfessorasPage() {
       </Modal>
 
       {/* Modal Editar */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Professora">
+      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Professor">
         <form
           className="space-y-4"
           onSubmit={(e) => {
@@ -275,6 +280,37 @@ export default function ProfessorasPage() {
               className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
               required
             />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Turmas</label>
+            <p className="text-xs text-(--color-foreground-secondary) mb-2">
+              Selecione as turmas que esta professora irá ministrar
+            </p>
+
+            <div className="max-h-48 overflow-y-auto border border-(--color-border) rounded-lg p-3 space-y-2">
+              {turmas.map((t) => {
+                const checked = editTurmaIds.includes(String(t.id))
+                return (
+                  <label key={t.id} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value={t.id}
+                      checked={checked}
+                      onChange={(e) => {
+                        const id = String(t.id)
+                        setEditTurmaIds((prev) =>
+                          e.target.checked ? [...prev, id] : prev.filter((x) => x !== id),
+                        )
+                      }}
+                      className="w-4 h-4 text-(--color-primary) rounded"
+                    />
+                    <span className="text-sm">
+                      {t.name} - {locais.find((l) => String(l.id) === String(t.localId))?.name}
+                    </span>
+                  </label>
+                )
+              })}
+            </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Salário Mensal</label>
@@ -309,7 +345,7 @@ export default function ProfessorasPage() {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        title="Excluir Professora"
+        title="Excluir Professor"
         size="sm"
       >
         <div className="space-y-4">

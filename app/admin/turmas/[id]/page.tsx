@@ -23,7 +23,8 @@ export default function TurmaDetailPage({ params }: { params: Promise<{ id: stri
   const local = locais.find((l) => l.id === turma.localId)
   const horariosDaTurma = horarios.filter((h) => String(h.turmaId) === String(turma.id))
   const alunasDaTurma = alunas.filter((a) => String(a.turmaId) === String(turma.id))
-  const professorasDaTurma = professoras.filter((p) => (turma.professoraIds || []).map(String).includes(String(p.id)))
+  const professoraIds = Array.isArray((turma as any).professoraIds) ? (turma as any).professoraIds : (turma as any).professoraId ? [(turma as any).professoraId] : []
+  const professorasDaTurma = professoras.filter((p) => professoraIds.map(String).includes(String(p.id)))
 
   return (
     <TurmaDetailClient
@@ -128,12 +129,12 @@ function TurmaDetailClient({
             </div>
           </div>
 
-          {professorasDaTurma.length > 0 && (
-            <p className="text-sm text-(--color-foreground-secondary) mt-1">
-              <strong>Professor{professorasDaTurma.length > 1 ? "as" : "a"}:</strong>{" "}
-              {professorasDaTurma.map((p) => p.nome).join(", ")}
-            </p>
-          )}
+          <p className="text-sm text-(--color-foreground-secondary) mt-1">
+            <strong>Professor{professorasDaTurma.length > 1 ? "es" : ""}:</strong>{" "}
+            {professorasDaTurma.length
+              ? professorasDaTurma.map((p: any) => p.nome ?? p.name).join(", ")
+              : "—"}
+          </p>
         </section>
 
         {/* Horários */}

@@ -82,7 +82,7 @@ export default function LoginPage() {
                   <User className={`w-6 h-6 ${selectedRole === "professora" ? "text-white" : "text-gray-600"}`} />
                 </div>
                 <div className="text-left flex-1">
-                  <div className="font-semibold text-gray-900">Professora</div>
+                  <div className="font-semibold text-gray-900">Professor</div>
                   <div className="text-sm text-gray-500">Gerenciar turmas e alunas</div>
                 </div>
                 <div

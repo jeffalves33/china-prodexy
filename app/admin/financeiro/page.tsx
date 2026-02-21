@@ -267,7 +267,7 @@ export default function FinanceiroPage() {
           }}
         >
           <div className="bg-(--color-background-secondary) rounded-lg p-4">
-            <p className="text-sm text-(--color-foreground-secondary) mb-1">Professora</p>
+            <p className="text-sm text-(--color-foreground-secondary) mb-1">Professor</p>
             <p className="font-semibold text-(--color-foreground)">
               {professoras.find((p) => p.id === selectedProfessora)?.nome}
             </p>

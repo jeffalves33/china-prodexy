@@ -123,7 +123,7 @@ export default function TurmasPage() {
                       <div className="bg-(--color-background-secondary) rounded-lg p-2.5">
                         <div className="flex items-center gap-1.5 mb-1">
                           <GraduationCap className="w-3.5 h-3.5 text-(--color-foreground-secondary)" />
-                          <p className="text-xs text-(--color-foreground-secondary)">Professora</p>
+                          <p className="text-xs text-(--color-foreground-secondary)">Professor</p>
                         </div>
                         <p className="font-semibold text-xs text-(--color-foreground) truncate">
                           {professora ? professora.nome.split(" ")[0] : "-"}
@@ -232,9 +232,9 @@ export default function TurmasPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Professora Responsável</label>
+            <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">Professor Responsável</label>
             <select className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary)">
-              <option value="">Selecione uma professora</option>
+              <option value="">Selecione um professor</option>
               {professoras.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.nome}
@@ -245,7 +245,7 @@ export default function TurmasPage() {
 
           <div>
             <label className="block text-sm font-medium text-(--color-foreground) mb-1.5">
-              Professoras Responsáveis
+              Professores Responsáveis
             </label>
             <div className="space-y-2 max-h-40 overflow-y-auto border border-(--color-border) rounded-lg p-3">
               {professoras.map((prof) => (
