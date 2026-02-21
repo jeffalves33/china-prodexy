@@ -26,6 +26,7 @@ export function MobileHeader({ title }: MobileHeaderProps) {
     { label: "Alunas", href: "/admin/alunas" },
     { label: "Professoras", href: "/admin/professoras" },
     { label: "Financeiro", href: "/admin/financeiro" },
+    { label: "Configurações", href: "/admin/configuracoes" },
   ]
 
   const professoraMenuItems = [

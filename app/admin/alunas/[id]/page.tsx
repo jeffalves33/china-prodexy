@@ -1,34 +1,37 @@
 // app/admin/alunas/[id]/page.tsx
 "use client"
 
-import { useState } from "react"
+import { use as usePromise, useMemo, useState } from "react"
 import { MobileHeader } from "@/components/layout/mobile-header"
 import { Modal } from "@/components/ui/modal"
 import { BackButton } from "@/components/ui/back-button"
 import { Users, Phone, Mail, Calendar, AlertCircle, CheckCircle, MessageCircle } from "lucide-react"
 import { alunas, turmas, polos, locais, pagamentosAlunas } from "@/lib/mock-data"
 import { formatCurrency, calculateAge, formatDate } from "@/lib/utils"
+import { normalizePhoneToWa, fillTemplate } from "@/lib/whatsapp"
+import { getPixConfig, DEFAULT_TEMPLATE } from "@/lib/pix"
 
-export default async function AlunaDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const aluna = alunas.find((a) => a.id === id)
+export default function AlunaDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = usePromise(params)
+  const idStr = String(id)
+  const aluna = alunas.find((a) => String(a.id) === idStr)
 
   if (!aluna) return <AlunaDetailClient alunaId={id} aluna={null} />
 
-  const turma = turmas.find((t) => t.id === aluna.turmaId)
+  const turma = turmas.find((t) => String(t.id) === String(aluna.turmaId))
   const polo = polos.find((p) => p.id === turma?.poloId)
   const local = locais.find((l) => l.id === turma?.localId)
   const idade = calculateAge(aluna.dataNascimento)
 
   const pagamentos = pagamentosAlunas
-    .filter((p) => p.alunaId === aluna.id)
+    .filter((p) => String(p.alunaId) === String(aluna.id))
     .sort((a, b) => b.mesReferencia.localeCompare(a.mesReferencia))
   const pendentes = pagamentos.filter((p) => p.status === "Pendente")
   const valorPendente = pendentes.reduce((sum, p) => sum + p.valor, 0)
 
   return (
     <AlunaDetailClient
-      alunaId={id}
+      alunaId={idStr}
       aluna={aluna}
       turma={turma}
       polo={polo}
@@ -56,6 +59,29 @@ function AlunaDetailClient({
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
   const [isCobrarModalOpen, setIsCobrarModalOpen] = useState(false)
 
+  const pixCfg = getPixConfig()
+  const pixOk = !!pixCfg.pixChave && !!pixCfg.pixNome
+
+  const mesesPendentes = (pendentes || []).map((p: any) => p.mesReferencia).join(", ")
+  const waPhone = normalizePhoneToWa(aluna?.responsavel?.whatsapp || "")
+
+  const waText = fillTemplate(pixCfg.mensagemTemplate || DEFAULT_TEMPLATE, {
+    responsavel: aluna?.responsavel?.nome || "Responsável",
+    aluna: aluna?.nome || "Aluna",
+    meses: mesesPendentes || "mês(es) pendente(s)",
+    valor: formatCurrency(valorPendente || 0),
+    pixChave: pixCfg.pixChave || "",
+    pixNome: pixCfg.pixNome || "",
+    pixBanco: pixCfg.pixBanco ? `Banco: ${pixCfg.pixBanco}` : "",
+  })
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+
+  const waUrl = useMemo(() => {
+    if (!waPhone) return ""
+    return `https://wa.me/${waPhone}?text=${encodeURIComponent(waText)}`
+  }, [waPhone, waText])
+
   if (!aluna) return <div>Aluna não encontrada</div>
 
   return (
@@ -77,9 +103,8 @@ function AlunaDetailClient({
               <h2 className="font-bold text-xl text-(--color-foreground) mb-1">{aluna.nome}</h2>
               <p className="text-sm text-(--color-foreground-secondary)">{idade} anos</p>
               <span
-                className={`inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full ${
-                  aluna.status === "Ativa" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
-                }`}
+                className={`inline-block mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full ${aluna.status === "Ativa" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-700"
+                  }`}
               >
                 {aluna.status}
               </span>
@@ -130,15 +155,15 @@ function AlunaDetailClient({
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <Users className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="font-medium text-(--color-foreground)">{aluna.responsavel.nome}</span>
+              <span className="font-medium text-(--color-foreground)">{aluna.responsavel?.nome}</span>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="text-(--color-foreground)">{aluna.responsavel.whatsapp}</span>
+              <span className="text-(--color-foreground)">{aluna.responsavel?.whatsapp}</span>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-(--color-foreground-secondary)" />
-              <span className="text-(--color-foreground)">{aluna.responsavel.email}</span>
+              <span className="text-(--color-foreground)">{aluna.responsavel?.email}</span>
             </div>
           </div>
         </section>
@@ -346,8 +371,8 @@ function AlunaDetailClient({
             <p className="font-semibold text-(--color-foreground)">{aluna.nome}</p>
 
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Responsável</p>
-            <p className="font-medium text-(--color-foreground)">{aluna.responsavel.nome}</p>
-            <p className="text-sm text-(--color-foreground-secondary)">{aluna.responsavel.whatsapp}</p>
+            <p className="font-medium text-(--color-foreground)">{aluna.responsavel?.nome}</p>
+            <p className="text-sm text-(--color-foreground-secondary)">{aluna.responsavel?.whatsapp}</p>
 
             <p className="text-sm text-(--color-foreground-secondary) mt-3 mb-1">Meses Pendentes</p>
             <p className="text-xl font-bold text-amber-600">
@@ -358,26 +383,42 @@ function AlunaDetailClient({
             <p className="text-2xl font-bold text-(--color-foreground)">{formatCurrency(valorPendente)}</p>
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-900">
-              <strong>Em breve:</strong> Botão para enviar mensagem automática no WhatsApp e gerar link de pagamento via
-              Stripe.
-            </p>
-          </div>
+          {pixOk ? (
+            waUrl ? (
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Abrir WhatsApp
+              </a>
+            ) : (
+              <button
+                disabled
+                className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
+                title="WhatsApp do responsável inválido"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Abrir WhatsApp
+              </button>
+            )
+          ) : (
+            <a
+              href="/admin/configuracoes"
+              className="flex-1 px-4 py-2.5 bg-(--color-primary) text-white rounded-lg font-semibold hover:bg-(--color-primary-hover) transition-colors flex items-center justify-center gap-2"
+            >
+              Configurar PIX
+            </a>
+          )}
 
-          <div className="flex gap-3">
+          <div className="flex">
             <button
               onClick={() => setIsCobrarModalOpen(false)}
-              className="flex-1 px-4 py-2.5 border border-(--color-border) rounded-lg font-semibold text-(--color-foreground) hover:bg-(--color-background-tertiary) transition-colors"
+              className="w-full px-4 py-2.5 border border-(--color-border) rounded-lg font-semibold text-(--color-foreground) hover:bg-(--color-background-tertiary) transition-colors"
             >
               Fechar
-            </button>
-            <button
-              disabled
-              className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg font-semibold opacity-50 cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Enviar Cobrança (Em breve)
             </button>
           </div>
         </div>

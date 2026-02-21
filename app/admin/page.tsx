@@ -4,7 +4,7 @@
 import { useState } from "react"
 import { MobileHeader } from "@/components/layout/mobile-header"
 import { StatCard } from "@/components/ui/stat-card"
-import { Users, GraduationCap, MapPin, DollarSign, TrendingUp, AlertCircle, Calendar } from "lucide-react"
+import { Users, GraduationCap, MapPin, DollarSign, TrendingUp, AlertCircle, Calendar, Settings } from "lucide-react"
 import Link from "next/link"
 import { polos, locais, turmas, alunas, professoras, pagamentosAlunas } from "@/lib/mock-data"
 import { formatCurrency } from "@/lib/utils"
@@ -39,6 +39,12 @@ export default function AdminDashboard() {
       href: "/admin/financeiro",
       icon: DollarSign,
       color: "bg-emerald-100 text-emerald-600",
+    },
+    {
+      label: "Configurações",
+      href: "/admin/configuracoes",
+      icon: Settings,
+      color: "bg-(--color-primary-light) text-(--color-primary)",
     },
   ]
 
