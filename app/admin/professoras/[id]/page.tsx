@@ -113,7 +113,7 @@ function ProfessoraDetailClient({
                   <div className="flex items-center gap-4 text-sm">
                     <span className="flex items-center gap-1 text-(--color-foreground-secondary)">
                       <Users className="w-3.5 h-3.5" />
-                      {alunasDaTurma.length} alunas
+                      {alunasDaTurma.length} alunos
                     </span>
                     <span className="px-2 py-0.5 bg-(--color-primary-light) text-(--color-primary) text-xs font-medium rounded-full">
                       {turma.nivel}

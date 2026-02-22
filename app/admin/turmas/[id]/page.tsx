@@ -195,7 +195,7 @@ function TurmaDetailClient({
 
         {/* Alunos */}
         <section className="space-y-3">
-          <h3 className="text-lg font-bold text-(--color-foreground)">Alunas da Turma</h3>
+          <h3 className="text-lg font-bold text-(--color-foreground)">Alunos da Turma</h3>
 
           {alunasDaTurma.length === 0 ? (
             <div className="bg-white rounded-lg p-6 text-center border border-(--color-border)">

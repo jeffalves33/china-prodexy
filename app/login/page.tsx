@@ -83,7 +83,7 @@ export default function LoginPage() {
                 </div>
                 <div className="text-left flex-1">
                   <div className="font-semibold text-gray-900">Professor</div>
-                  <div className="text-sm text-gray-500">Gerenciar turmas e alunas</div>
+                  <div className="text-sm text-gray-500">Gerenciar turmas e alunos</div>
                 </div>
                 <div
                   className={`w-5 h-5 rounded-full border-2 ${

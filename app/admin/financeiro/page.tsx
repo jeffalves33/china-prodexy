@@ -106,7 +106,7 @@ export default function FinanceiroPage() {
                   <div className="flex items-start gap-3">
                     <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <p className="font-semibold text-amber-900">{alunasPendentes} alunas com pendências</p>
+                      <p className="font-semibold text-amber-900">{alunasPendentes} alunos com pendências</p>
                       <p className="text-sm text-amber-700 mt-1">Total pendente: {formatCurrency(totalPendente)}</p>
                     </div>
                   </div>
@@ -123,7 +123,7 @@ export default function FinanceiroPage() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h3 className="font-semibold text-(--color-foreground)">{local.name}</h3>
-                        <p className="text-sm text-(--color-foreground-secondary)">{alunas} alunas</p>
+                        <p className="text-sm text-(--color-foreground-secondary)">{alunas} alunos</p>
                       </div>
                       {pendente > 0 && (
                         <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
