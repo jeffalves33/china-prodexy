@@ -132,7 +132,7 @@ export default function ConfiguracoesPage() {
               className="w-full px-3 py-2 border border-(--color-border) rounded-lg focus:outline-none focus:ring-2 focus:ring-(--color-primary) bg-white"
             />
             <p className="text-xs text-(--color-foreground-secondary) mt-2">
-              Variáveis: <span className="font-mono">{`{aluno}`}</span>,{" "}
+              Variáveis: <span className="font-mono">{`{responsavel}`}</span>,{" "} <span className="font-mono">{`{aluno}`}</span>,{" "}
               <span className="font-mono">{`{meses}`}</span>, <span className="font-mono">{`{valor}`}</span>,{" "}
               <span className="font-mono">{`{pixChave}`}</span>, <span className="font-mono">{`{pixNome}`}</span>,{" "}
               <span className="font-mono">{`{pixBanco}`}</span>

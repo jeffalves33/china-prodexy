@@ -50,7 +50,7 @@ export default function ProfessorasPage() {
 
       <main className="px-4 pb-6 space-y-4">
         <div className="pt-4 space-y-3">
-          <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Buscar professora..." />
+          <SearchInput value={searchQuery} onChange={setSearchQuery} placeholder="Buscar professor..." />
 
           <div>
             <label className="block text-xs font-medium text-(--color-foreground-secondary) mb-1.5 ml-1">

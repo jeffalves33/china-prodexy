@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X, LogOut, LayoutDashboard, MapPin, Users, User, UserCog, DollarSign, Settings } from "lucide-react"
+import { Menu, X, LogOut, LayoutDashboard, MapPin, Users, Layers, GraduationCap, DollarSign, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { getCurrentUser } from "@/lib/mock-data"
@@ -21,9 +21,9 @@ export function MobileHeader({ title }: MobileHeaderProps) {
   const adminMenuItems = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { label: "Locais", href: "/admin/locais", icon: MapPin },
-    { label: "Turmas", href: "/admin/turmas", icon: Users },
-    { label: "Alunos", href: "/admin/alunas", icon: User },
-    { label: "Professores", href: "/admin/professoras", icon: UserCog },
+    { label: "Turmas", href: "/admin/turmas", icon: Layers },
+    { label: "Alunos", href: "/admin/alunas", icon: Users },
+    { label: "Professores", href: "/admin/professoras", icon: GraduationCap },
     { label: "Financeiro", href: "/admin/financeiro", icon: DollarSign },
     { label: "Configurações", href: "/admin/configuracoes", icon: Settings },
   ];

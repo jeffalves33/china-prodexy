@@ -24,11 +24,11 @@ export default function AdminDashboard() {
   const alunasPendentes = new Set(pagamentosMesAtual.filter((p) => p.status === "Pendente").map((p) => p.alunaId)).size
 
   const quickLinks = [
-    { label: "Gerenciar Locais", href: "/admin/locais", icon: MapPin, color: "bg-blue-100 text-blue-700" },
-    { label: "Gerenciar Turmas", href: "/admin/turmas", icon: GraduationCap, color: "bg-blue-100 text-blue-700" },
-    { label: "Gerenciar Alunos", href: "/admin/alunas", icon: Users, color: "bg-blue-100 text-blue-700" },
-    { label: "Gerenciar Professores", href: "/admin/professoras", icon: GraduationCap, color: "bg-blue-100 text-blue-700", },
-    { label: "Financeiro Geral", href: "/admin/financeiro", icon: DollarSign, color: "bg-amber-100 text-amber-800", },
+    { label: "Gerenciar Locais", href: "/admin/locais", icon: MapPin, color: "bg-gray-100 text-orange-600" },
+    { label: "Gerenciar Turmas", href: "/admin/turmas", icon: Layers, color: "bg-gray-100 text-purple-600" },
+    { label: "Gerenciar Alunos", href: "/admin/alunas", icon: Users, color: "text-(--color-primary) text-blue-600" },
+    { label: "Gerenciar Professores", href: "/admin/professoras", icon: GraduationCap, color: "bg-gray-100 text-blue-600", },
+    { label: "Financeiro Geral", href: "/admin/financeiro", icon: DollarSign, color: "bg-gray-100 text-amber-600", },
     { label: "Configurações", href: "/admin/configuracoes", icon: Settings, color: "bg-(--color-primary-light) text-(--color-primary)", },
   ]
 
